@@ -2,10 +2,37 @@
   {
     "title": "Escoba",
     "description": "SemiNueva",
-    "price": 300,
+    "price": 100,
     "thumbnail": "urlCualquiera",
     "code": "1sas210",
-    "stock": 30,
+    "stock": 5,
     "id": 0
+  },
+  {
+    "title": "Martillo",
+    "description": "Nuevo",
+    "price": 250,
+    "thumbnail": "urlCualquiera",
+    "code": "1sas450",
+    "stock": 10,
+    "id": 1
+  },
+  {
+    "title": "Secador",
+    "description": "Usado",
+    "price": 350,
+    "thumbnail": "urlCualquiera",
+    "code": "1sa454110",
+    "stock": 7,
+    "id": 2
+  },
+  {
+    "title": "Casaca de Boca",
+    "description": "Impecable",
+    "price": 35000,
+    "thumbnail": "SeVieneLaSeptimaURL",
+    "code": "1s20sa5s210",
+    "stock": 7,
+    "id": 3
   }
 ]

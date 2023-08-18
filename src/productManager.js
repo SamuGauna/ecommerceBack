@@ -1,7 +1,8 @@
-const fs = require('fs')
+import fs from 'fs';
 
 
-class ProductManager{
+
+export class ProductManager{
     static productId = 0;
     constructor(path){
         this.products = []
@@ -25,23 +26,25 @@ class ProductManager{
             const searchCode = productsJs.some((prod => prod.code == code))
             if(searchCode){
                 console.log("No se puede agregar tiene el mismo codigo");
-            }
-            if(title && description && price && thumbnail && code && stock){
-                const newProduct = {
-                    title, 
-                    description,
-                    price,
-                    thumbnail,
-                    code,
-                    stock,
-                    id: ProductManager.productId++,
+            }else{
+                if(title && description && price && thumbnail && code && stock){
+                    const newProduct = {
+                        title, 
+                        description,
+                        price,
+                        thumbnail,
+                        code,
+                        stock,
+                        id: ProductManager.productId++,
+                    }
+                    productsJs.push(newProduct)
+                    await this.fs.promises.writeFile(this.fileName, JSON.stringify(productsJs, null, 2))
+                    console.log("Producto agregado exitosamente");
+                } else{
+                    console.log("Le faltan datos para agregar el producto")
                 }
-                productsJs.push(newProduct)
-                await this.fs.promises.writeFile(this.fileName, JSON.stringify(productsJs), null, '\t')
-                console.log("Producto agregado exitosamente");
-            } else{
-                console.log("Le faltan datos para agregar el producto")
             }
+           
         } 
         catch (error) {
             throw Error ("No se puede agregar el producto.")
@@ -52,10 +55,11 @@ class ProductManager{
     getProducts = async()=>{
         try {
             let readDoc = await this.fs.promises.readFile(this.fileName, "utf-8")
-            let readDocParse = await JSON.parse(readDoc)
-            return readDocParse
+              let readDocParse = await JSON.parse(readDoc)
+              return readDocParse
+            //  return readDoc
         } catch (error) {
-            console.log(error);
+            console.log(`error en el getProducts ${error}`);
         }
     }
     getProductById = async(idProduct)=>{
@@ -101,7 +105,7 @@ class ProductManager{
             let searchProd = readDocParse.find((p=> p.id === id))
             if(searchProd){
                 newArray = readDocParse.filter((p)=> p.id !== id)
-                await this.fs.promises.writeFile(this.fileName, JSON.stringify(newArray, null, '\t'))
+                await this.fs.promises.writeFile(this.fileName, JSON.stringify(newArray, null, 2))
             } else {
                 console.log("Ningun producto contiene el id recibido ");
             }
@@ -126,18 +130,18 @@ class ProductManager{
 // // Consulta por id no encontrado
 // product.getProductById(10);
 
-const product = new ProductManager("/products.json")
- const testing = async()=>{
-    try {
-        await product.createFile();
-        console.log(await product.getProducts()) 
-        await product.addProduct("Escoba", "SemiNueva", 100, "urlCualquiera", "1sas210", 5);
-        await product.getProductById(0)
-        await product.deleteProduct(0);
-        await product.updateProduct(0,{price:300, stock:30})
-    } catch (error) {
-        console.log(error);
-    }
+// const product = new ProductManager("/products.json")
+//  const testing = async()=>{
+//     try {
+//         await product.createFile();
+//         console.log(await product.getProducts()) 
+//         await product.addProduct("Escoba", "SemiNueva", 100, "urlCualquiera", "1sas210", 5);
+//         await product.getProductById(0)
+//         await product.deleteProduct(0);
+//         await product.updateProduct(0,{price:300, stock:30})
+//     } catch (error) {
+//         console.log(error);
+//     }
     
- }
- testing();
+//  }
+//  testing();
