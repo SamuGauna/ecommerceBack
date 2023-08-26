@@ -1,24 +1,9 @@
 import express from "express";
-import { ProductManager } from "./productManager.js";
+import productRouter from "./routes/productRouter.js";
+import cartRouter from "./routes/cartRouter.js" 
 
-const productManager = new ProductManager("/products.json");
-// const test = async ()=>{
-//     await productManager.createFile();
-//     await productManager.addProduct("Escoba", "SemiNueva", 100, "urlCualquiera", "1sas210", 5)
-//     await productManager.addProduct("Martillo", "Nuevo", 250, "urlCualquiera", "1sas450", 10)
-//     await productManager.addProduct("Secador", "Usado", 350, "urlCualquiera", "1sa454110", 7)
-//     await productManager.addProduct("Casaca de Boca", "Impecable", 35000, "SeVieneLaSeptimaURL", "1s20sa5s210", 7)
-// }
-// test();
+import { ProductManager } from "./manager/productManager.js";
 
-
-// endpoints
-//consulta por products
-// localhost:8080/products
-// con req Query
-// localhost:8080/products?limit=1
-// con req Params
-// localhost:8080/products/2
 
 
 
@@ -26,6 +11,8 @@ const app = express();
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
+app.use('/products', productRouter)
+app.use('/carts', cartRouter)
 
 
 
@@ -33,28 +20,7 @@ const PORT = 8080
 app.listen(PORT, ()=>{
     console.log(`listening on port ${PORT}`);
 })
-app.get('/products', async(req, res) =>{
-    const {limit} = req.query
-    const readproduct = await productManager.getProducts();
-    // let objectJS = JSON.parse(readproduct)
-    if(limit){
-        const limitProduct = await readproduct.splice(0, parseInt(limit))
-        res.send(limitProduct)
-    } else{
-        res.send(readproduct)
-    }
 
-})
-app.get('/products/:pid', async(req, res) =>{
-    const {pid} = req.params
-    const readproduct = await productManager.getProducts();
-    const searchProduct = readproduct.find((prod)=> prod.id === parseInt(pid))
-    if(searchProduct){
-        res.send(searchProduct)
-    } else{
-        res.json("ID INGRESADO NO EXISTE")
-    }
-})
 
 
 app.get('/dosparametros/:nombre/:apellido', (req, res)=>{
@@ -62,3 +28,13 @@ app.get('/dosparametros/:nombre/:apellido', (req, res)=>{
     res.send(`el nombre es ${req.params.nombre} y el apellido ${req.params.apellido}`)
 })
 
+// const productManager = new ProductManager("/products.json")
+
+// const test = async ()=>{
+//     await productManager.createFile();
+//     await productManager.addProduct("Escoba", "SemiNueva", 100, "urlCualquiera", "1sas210", 5, true)
+//     await productManager.addProduct("Martillo", "Nuevo", 250, "urlCualquiera", "1sas450", 10, true)
+//     await productManager.addProduct("Secador", "Usado", 350, "urlCualquiera", "1sa454110", 7, true)
+//     await productManager.addProduct("Casaca de Boca", "Impecable", 35000, "SeVieneLaSeptimaURL", "1s20sa5s210", 7, true)
+// }
+// test();

@@ -3,10 +3,10 @@ import fs from 'fs';
 
 
 export class ProductManager{
-    static productId = 0;
+    
     constructor(path){
         this.products = []
-        this.dirName = './files'
+        this.dirName = './src/fileSystem'
         this.fileName = this.dirName + path   
         this.fs = fs
     }
@@ -20,14 +20,17 @@ export class ProductManager{
             throw Error `El archivo ya se encuentra creado ${error}`
         }
     }
-    addProduct = async(title, description, price, thumbnail, code, stock) =>{
+    addProduct = async(title, description, price, thumbnail, code, stock, status) =>{
+        
         try {
             let productsJs = await this.getProducts();
             const searchCode = productsJs.some((prod => prod.code == code))
             if(searchCode){
                 console.log("No se puede agregar tiene el mismo codigo");
             }else{
-                if(title && description && price && thumbnail && code && stock){
+                if(title && description && price && thumbnail && code && stock && status){
+                    const lastProduct = productsJs[productsJs.length - 1];
+                    const newId = lastProduct ? lastProduct.id + 1 : 1;
                     const newProduct = {
                         title, 
                         description,
@@ -35,7 +38,8 @@ export class ProductManager{
                         thumbnail,
                         code,
                         stock,
-                        id: ProductManager.productId++,
+                        status,
+                        id: newId,
                     }
                     productsJs.push(newProduct)
                     await this.fs.promises.writeFile(this.fileName, JSON.stringify(productsJs, null, 2))
