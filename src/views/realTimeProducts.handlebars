@@ -1,0 +1,40 @@
+
+    
+
+<section>
+    <div style="text-align: center; font-weight: bold;">WebSocket of Real Time Products</div>
+    <div style="display: flex; justify-content: center; ">
+        <form id="form">
+        <h1>Ingrese los datos del producto que desea agregar</h1>
+        <input type="text" id="product-name" name="product-name" placeholder="Nombre del Producto"><br>
+        <input type="text" id="product-description" name="product-description" placeholder="Description"><br>
+        <input type="number" id="product-price" name="product-price" placeholder="Price"><br>
+        <input type="text" id="product-thumbnail" name="product-thumbnail" placeholder="Thumbnail"><br>
+        <input type="text" id="product-code" name="product-code" placeholder="Code"><br>
+        <input type="number" id="product-stock" name="product-stock" placeholder="Stock"><br>
+        <input type="text" id="product-status" name="product-status" placeholder="status"><br>
+        <input id="post" type="submit" value="Post">
+        </form> 
+        <div id="delete">
+            <h1>Ingrese el id del producto que desea eliminar</h1>
+            <input type="number" id="product-delete" name="product-delete" placeholder="ID"><br>
+            <input id="post-delete" type="submit" value="Delete">
+        </div>
+    </div>
+</section>
+    <div id="divVacio">
+        <h2 style="text-align: center;">{{title}}</h2>
+        <ul class="contenidoHome">
+            <li>description:</li>
+            <li>price:</li>
+            <li>thumbnail:</li>
+            <li>code:</li>
+            <li>stock:</li>
+            <li>status:</li>
+            <li>id:</li>
+        </ul>
+    </div>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/realTimeProducts.js" ></script>

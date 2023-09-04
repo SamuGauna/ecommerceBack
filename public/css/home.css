@@ -1,0 +1,19 @@
+body{
+    font-weight: bold;
+    font-size: 30px;
+    background-color: red;
+}
+.titleHome{
+    text-align: center;
+}
+.cardConteiner{
+    display: flex;
+    justify-content: space-between;
+}
+.card{
+    display: flex;
+    flex-direction: column;
+}
+.contenidoHome{
+    list-style-type: none;
+}

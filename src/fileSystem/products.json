@@ -48,5 +48,15 @@
     "stock": 10,
     "status": false,
     "id": 5
+  },
+  {
+    "title": "Chomba Boquita",
+    "description": "Un solo uso",
+    "price": "10000",
+    "thumbnail": "urlLoquesea",
+    "code": "sd500s",
+    "stock": "1",
+    "status": "true",
+    "id": 6
   }
 ]

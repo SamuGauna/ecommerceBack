@@ -3,7 +3,7 @@ import { ProductManager } from "../manager/productManager.js";
 const router = Router();
 const productManager = new ProductManager("/products.json")
 
-router.get('/', async(req, res) =>{
+router.get('/products', async(req, res) =>{
     const {limit} = req.query
     const readproduct = await productManager.getProducts();
     // let objectJS = JSON.parse(readproduct)
@@ -15,7 +15,7 @@ router.get('/', async(req, res) =>{
     }
 
 })
-router.get('/:pid', async(req, res) =>{
+router.get('/products/:pid', async(req, res) =>{
     const {pid} = req.params
     const readproduct = await productManager.getProducts();
     const searchProduct = readproduct.find((prod)=> prod.id === parseInt(pid))
@@ -25,7 +25,7 @@ router.get('/:pid', async(req, res) =>{
         res.json("ID INGRESADO NO EXISTE")
     }
 })
-router.post('/', async(req, res) =>{
+router.post('/products', async(req, res) =>{
     try {
         const {title, description, price, thumbnail, code, stock, status} = req.body
         const newProd = await productManager.addProduct(title, description, price, thumbnail, code, stock, status)
@@ -34,7 +34,7 @@ router.post('/', async(req, res) =>{
         res.status(404).json({ message: error.message });
     }
 })
-router.put('/:pid', async(req, res) =>{
+router.put('/products/:pid', async(req, res) =>{
     try {
         const prod = req.body
         const {pid} = req.params
@@ -49,7 +49,7 @@ router.put('/:pid', async(req, res) =>{
         res.status(404).json({ message: error.message });
     }
 })
-router.delete('/:pid', async(req, res)=>{
+router.delete('/products/:pid', async(req, res)=>{
     try {
         const {pid} = req.params
         const allProducts = await productManager.getProducts()
