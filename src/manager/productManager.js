@@ -6,7 +6,7 @@ export class ProductManager{
     
     constructor(path){
         this.products = []
-        this.dirName = './src/fileSystem'
+        this.dirName = './src/daos/fileSystem'
         this.fileName = this.dirName + path   
         this.fs = fs
     }

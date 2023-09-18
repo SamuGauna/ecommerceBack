@@ -16,4 +16,7 @@ router.get('/realTimeProducts', async(req, res) =>{
     res.render('realTimeProducts', { style: 'realTimeProducts.css' })
 
 })
+router.get('/chat', (req, res)=>{
+    res.render('chat', {})
+})
 export default router

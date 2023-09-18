@@ -5,7 +5,8 @@ import handlebarsRouter from "./routes/handlebarsRouter.js"
 import handlebars from "express-handlebars";
 import { ProductManager } from "./manager/productManager.js";
 import { Server, Socket } from "socket.io";
-
+import './db/connection.js'
+import { messagesModel } from "./daos/mongodb/models/messageModel.js";
 
 
 const app = express();
@@ -30,6 +31,11 @@ socketServer.on('connection', (socket)=>{
         await product.deleteProduct(idToDelete)
         const newListFromSocket = await product.getProducts();
         socketServer.emit('updateStateProduct2', newListFromSocket);
+    })
+    socket.on('message', async(dataMessage)=>{
+        await messagesModel.create(dataMessage)
+        const messagesDB = await messagesModel.find()
+        socketServer.emit('newMessage', messagesDB)
     })
 })
 

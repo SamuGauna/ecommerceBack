@@ -5,7 +5,7 @@ const productManager = new ProductManager("/products.json")
 
 export class CartManager{
     constructor(path){
-        this.dirName = './src/fileSystem'
+        this.dirName = './src/daos/fileSystem'
         this.fileName = this.dirName + path   
         this.fs = fs
     }
