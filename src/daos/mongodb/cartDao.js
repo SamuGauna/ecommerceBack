@@ -1,12 +1,12 @@
 import { cartModel } from "./models/cartModel.js";
 import { productModel } from "./models/productModel.js";
-import ProductManagerMongodb from "./productManagerMongodb.js";
+import ProductManagerMongodb from "./productDao.js";
 const productManager = new ProductManagerMongodb();
 
 export default class CartsDaoMongo {
     async getAllCart() {
         try {
-        const response = await cartModel.find({}).populate('product.product');
+        const response = await cartModel.find({}).populate('products.productId');
         return response;
         } catch (error) {
         console.log(error);
@@ -25,7 +25,7 @@ export default class CartsDaoMongo {
     async getCartById(cid) {
         try {
         const response = await cartModel.findById(cid).populate(
-            "product.product"
+            "products.productId"
         );
         return response;
         } catch (error) {
@@ -43,17 +43,17 @@ export default class CartsDaoMongo {
         } else {
             if (findCart) {
             const productExist = findCart.products.find(
-                (product) => product.product.toString() === pid
+                (elemento) => elemento.productId ? elemento.productId.toString() === pid : false
             );
             if (!productExist) {
                 const newProd = {
                 quantity: 1,
-                product: findProduct._id,
+                productId: pid,
                 };
-                findCart.product.push(newProd);
+                findCart.products.push(newProd);
             } else {
                 const indexProduct = findCart.products.findIndex(
-                (elemento) => elemento.product.toString() === pid
+                (elemento) =>  elemento.productId ? elemento.productId.toString() === pid : false
                 );
                 findCart.products[indexProduct].quantity += 1;
             }
@@ -76,7 +76,7 @@ export default class CartsDaoMongo {
         }
 
         const productToUpdate = cart.products.find(
-            (product) => product.product.toString() === pid
+            (product) => product.productId ? product.productId.toString() === pid : false
         );
         if (!productToUpdate) {
             throw new Error("Product not found in cart");
@@ -91,13 +91,22 @@ export default class CartsDaoMongo {
         }
     }
 
+    async updateAllCart(cid, obj) {
+        try {
+            const response = await cartModel.updateOne({_id: cid}, obj);
+            return response;
+        } catch (error) {
+        console.log(error);
+        }
+    }
+
     async deleteProductFromCart(cid, pid) {
         try {
         const findCart = await cartModel.findById(cid);
 
         if (findCart) {
             const productIndex = findCart.products.findIndex(
-            (product) => product.product.toString() === pid
+            (product) => product.productId ? product.productId.toString() === pid : false
             );
             if (productIndex !== -1) {
             findCart.products.splice(productIndex, 1);

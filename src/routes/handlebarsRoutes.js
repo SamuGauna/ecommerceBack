@@ -9,7 +9,6 @@ router.get('/', async(req, res) =>{
     const readproduct = await p.getProducts();
     
     res.render('home', { productos: readproduct, style: 'home.css' });
-
 })
 router.get('/realTimeProducts', async(req, res) =>{
     const readproduct = await p.getProducts();
@@ -19,4 +18,6 @@ router.get('/realTimeProducts', async(req, res) =>{
 router.get('/chat', (req, res)=>{
     res.render('chat', {})
 })
+
+
 export default router
