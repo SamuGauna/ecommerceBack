@@ -1,17 +1,22 @@
-<h1 class="titleHome">Estos son todos los productos hasta el momento</h1>
-<div class="cardConteiner"> 
-    {{#each productos}}
-    <div class="card">
-        <h2 style="text-align: center;">{{title}}</h2>
-        <ul class="contenidoHome">
-            <li>description: {{description}}</li>
-            <li>price: {{price}}</li>
-            <li>thumbnail: {{thumbnail}}</li>
-            <li>code: {{code}}</li>
-            <li>stock: {{stock}}</li>
-            <li>status: {{status}}</li>
-            <li>id: {{id}}</li>
-        </ul>
-    </div>
-    {{/each}}
+<div class="body">
+        <div class="container">
+            <form action="http://localhost:8080/api/sessions/signup" method="post">
+                <div class="head">
+                    <span>Sign up</span>
+                    <p>Create a free account with your email.</p>
+                </div>
+                <div class="inputs">
+                    <input type="text" placeholder="First Name" name="firstName">
+                    <input type="text" placeholder="Last Name" name="lastName">
+                    <input type="email" placeholder="Email" name="email">
+                    <input type="number" placeholder="Age" name="age">
+                    <input type="password" placeholder="Password" name="password">*-
+                </div>
+                <button value="submit">Sign up</button>
+            </form>
+            <div class="form-footer">
+                <p>Have an account? <a href="http://localhost:8080/api/sessions/login">Log in</a></p> 
+            </div>
+        </div>
+
 </div>

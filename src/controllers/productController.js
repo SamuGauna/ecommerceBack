@@ -1,3 +1,4 @@
+import { getCartByIdService } from "../services/cartService.js";
 import { 
     getAllService, 
     getByIdService, 
@@ -27,8 +28,14 @@ export const getProdFilterPaginateController = async (req, res, next) => {
         const modelPage = page ? parseInt(page, 10) : 1;
         const modelSort = sortObjectMapper[sort] ?? undefined;
         const doc = await getProdFilterPaginateService(modelTypeElement, modelLimit, modelPage, modelSort);
-        
-        res.render('productsDB', {products: doc.payload, paginate: doc.hasNextPage});
+        const cart = await getCartByIdService("6513322471de1bde07ea5d2d")
+        let totalQuantity = 0;
+        if (Array.isArray(cart.products)) {
+            cart.products.forEach(product => {
+              totalQuantity += product.quantity;
+            });
+          }
+        res.render('productsDB', {products: doc.payload, quantityProdId: totalQuantity});
         //res.json(doc)
     } catch (error) {
         next(error)

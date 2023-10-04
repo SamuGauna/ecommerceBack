@@ -1,0 +1,17 @@
+<h1 class="titleHome">Estos son todos los productos hasta el momento</h1>
+<div class="cardConteiner"> 
+    {{#each productos}}
+    <div class="card">
+        <h2 style="text-align: center;">{{title}}</h2>
+        <ul class="contenidoHome">
+            <li>description: {{description}}</li>
+            <li>price: {{price}}</li>
+            <li>thumbnail: {{thumbnail}}</li>
+            <li>code: {{code}}</li>
+            <li>stock: {{stock}}</li>
+            <li>status: {{status}}</li>
+            <li>id: {{id}}</li>
+        </ul>
+    </div>
+    {{/each}}
+</div>

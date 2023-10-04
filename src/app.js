@@ -6,7 +6,8 @@ import handlebars from "express-handlebars";
 import './db/connection.js'
 import { Server, Socket } from "socket.io";
 import { eventsFromSocket } from "./socket/indexSocket.js";
-
+import sessionRouter from './routes/sessionsRoutes.js'
+import { sessionMongoStore } from "./db/session.js";
 const app = express();
 const PORT = 8080
 app.listen(PORT, ()=>{
@@ -17,16 +18,31 @@ app.listen(PORT, ()=>{
 // }))
 // eventsFromSocket(socketServer)
 
+const hbs = handlebars.create({
+    helpers: {
+    userAuthenticated: function (user) {
+        if (user === 'admin') {
+        return true;
+        }
+        return false;
+    },
+    },
+});
+
 
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
-app.engine('handlebars', handlebars.engine())
+app.engine('handlebars', hbs.engine)
+
 app.set('views', './src/views')
 app.set('view engine', 'handlebars')
+
 app.use(express.static('./public'))
 
+app.use(sessionMongoStore)
 
 app.use('/handlebars', handlebarsRouter)
 app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
+app.use('/api/sessions', sessionRouter)
