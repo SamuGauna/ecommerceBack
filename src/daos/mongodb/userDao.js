@@ -1,13 +1,13 @@
 import { userModel } from "./models/userModel.js";
-
+import bcrypt from "bcrypt"
 
 
 
 export default class userDao {
     
-    async userExist(email, password) {
+    async userExist(email) {
         try {
-        const response = await userModel.findOne({email, password})
+        const response = await userModel.findOne({email})
         if(!response){
             return console.log(`Los datos ingresados no son correctos`);
         }
@@ -40,10 +40,21 @@ export default class userDao {
             lastName, 
             email, 
             age, 
-            password, 
+            password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)), 
             role: roleFilter
         })
         return newUser
+        } catch (error) {
+        console.log(error);
+        }
+    }
+    async findUser(id) {
+        try {
+        const response = await userModel.findById(id)
+        if(!response){
+            return console.log(`No se encontro el user con el id: ${id}`);
+        }
+        return response
         } catch (error) {
         console.log(error);
         }

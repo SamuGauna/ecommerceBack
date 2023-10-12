@@ -8,6 +8,9 @@ import { Server, Socket } from "socket.io";
 import { eventsFromSocket } from "./socket/indexSocket.js";
 import sessionRouter from './routes/sessionsRoutes.js'
 import { sessionMongoStore } from "./db/session.js";
+import { initializePassport } from "./config/passportConfig.js";
+import passport from "passport";
+import session from "express-session";
 const app = express();
 const PORT = 8080
 app.listen(PORT, ()=>{
@@ -28,8 +31,9 @@ const hbs = handlebars.create({
     },
     },
 });
-
-
+initializePassport();
+app.use(passport.initialize())
+app.use(sessionMongoStore)
 
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
@@ -40,7 +44,7 @@ app.set('view engine', 'handlebars')
 
 app.use(express.static('./public'))
 
-app.use(sessionMongoStore)
+
 
 app.use('/handlebars', handlebarsRouter)
 app.use('/api/products', productRouter)
