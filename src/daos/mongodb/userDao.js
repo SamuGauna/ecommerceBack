@@ -1,5 +1,6 @@
 import { userModel } from "./models/userModel.js";
 import bcrypt from "bcrypt"
+import CartsDaoMongo from "./cartDao.js";
 
 
 
@@ -28,8 +29,10 @@ export default class userDao {
         }
     }
 
-    async userCreate(firstName, lastName, email, age, password, role) {
+    async userCreate(firstName, lastName, email, age, password) {
         try {
+        const cartDao = new CartsDaoMongo();
+        const newCartUser = await cartDao.createCart()
         const response = await userModel.findOne({email})
         if(response){
             return console.log(`El usario con email: ${email}, ya esta registrado`);
@@ -40,7 +43,8 @@ export default class userDao {
             lastName, 
             email, 
             age, 
-            password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)), 
+            password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
+            cart: newCartUser,
             role: roleFilter
         })
         return newUser

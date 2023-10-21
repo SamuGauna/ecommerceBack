@@ -3,16 +3,28 @@ import LocalStrategy from "passport-local"
 import GithubStrategy from "passport-github2"
 import bcrypt from "bcrypt"
 import userDao from "../daos/mongodb/userDao.js";
+import jwt from "passport-jwt"
+
 const userManager = new userDao();
+const JWTStrategy = jwt.Strategy;
+const ExtractJWT = jwt.ExtractJwt;
+const cookieExtractor = (req)=>{
+    let token = null
+    if(req && req.cookies){
+        token = req.cookies['token']
+    }
+    return token
+}
+
 export const initializePassport = ()=>{
     passport.use('register', new LocalStrategy({ passReqToCallback: true, usernameField: 'email'}, async(req, username, password, done)=>{
-        const {firstName, lastName, email, age, password: userPassword } = req.body
+        const {firstName, lastName, age} = req.body
         try {
             const exist = await userManager.userExist(username)
             if(exist){
                 return(null, false)
             }
-            const newUser = await userManager.userCreate(firstName, lastName, email, age, userPassword)
+            const newUser = await userManager.userCreate(firstName, lastName, username, age, password)
             return done(null, newUser)
         } catch (error) {
             return done(error)
@@ -60,6 +72,17 @@ export const initializePassport = ()=>{
         
     }
     ))
+    passport.use('jwt', new JWTStrategy({
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
+        secretOrKey: 'palabraCualquieraSecreto',
+    },async(jwt_payload, done)=>{
+        try {
+            done(null, jwt_payload)
+        } catch (error) {
+            done(error)
+        }
+    })
+    )
     passport.serializeUser((user, done)=>{
         done(null, user._id)
     })

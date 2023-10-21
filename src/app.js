@@ -11,6 +11,10 @@ import { sessionMongoStore } from "./db/session.js";
 import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
 import session from "express-session";
+import cookieParser from "cookie-parser";
+
+
+
 const app = express();
 const PORT = 8080
 app.listen(PORT, ()=>{
@@ -34,7 +38,7 @@ const hbs = handlebars.create({
 initializePassport();
 app.use(passport.initialize())
 app.use(sessionMongoStore)
-
+app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.engine('handlebars', hbs.engine)

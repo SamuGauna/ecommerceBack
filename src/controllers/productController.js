@@ -35,8 +35,8 @@ export const getProdFilterPaginateController = async (req, res, next) => {
               totalQuantity += product.quantity;
             });
           }
-        res.render('productsDB', {products: doc.payload, quantityProdId: totalQuantity});
-        //res.json(doc)
+        //res.render('productsDB', {products: doc.payload, quantityProdId: totalQuantity});
+        res.json(doc)
     } catch (error) {
         next(error)
     }
