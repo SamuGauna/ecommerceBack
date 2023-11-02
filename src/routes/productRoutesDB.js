@@ -8,6 +8,7 @@ import {
     getProdFilterPaginateController
 } from "../controllers/productController.js";
 
+
 const router = Router();
 
 router.get('/', getProdFilterPaginateController)

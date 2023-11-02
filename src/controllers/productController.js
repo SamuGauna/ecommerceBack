@@ -32,9 +32,9 @@ export const getProdFilterPaginateController = async (req, res, next) => {
         let totalQuantity = 0;
         if (Array.isArray(cart.products)) {
             cart.products.forEach(product => {
-              totalQuantity += product.quantity;
+            totalQuantity += product.quantity;
             });
-          }
+        }
         //res.render('productsDB', {products: doc.payload, quantityProdId: totalQuantity});
         res.json(doc)
     } catch (error) {
