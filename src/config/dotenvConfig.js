@@ -1,3 +1,13 @@
-import dotenv from "dotenv"
-
-dotenv.config();
+import "dotenv/config"
+export default {
+    DB_MONGO_URL: process.env.DB_MONGO_URL,
+    SESSION_SECRET: process.env.SESSION_MONGO_STORE_SECRET,
+    JWT_TOKEN_SECRET: process.env.JWT_TOKEN_SECRET,
+    PERSISTENCE: process.env.PERSISTENCE,
+    CLIENT_ID_GITHUB_STRATEGY: process.env.CLIENT_ID_GITHUB_STRATEGY,
+    CLIENT_SECRET_GITHUB_STRATEGY: process.env.CLIENT_SECRET_GITHUB_STRATEGY,
+    PORT_NODEMAILER: process.env.PORT_NODEMAILER,
+    PORT_GMAIL: process.env.PORT_GMAIL, 
+    NODEMAILER_PASSWORD_GMAIL: process.env.NODEMAILER_PASSWORD_GMAIL,
+    NODEMAILER_USER_GMAIL: process.env.NODEMAILER_USER_GMAIL
+}

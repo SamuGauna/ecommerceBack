@@ -4,6 +4,7 @@ import GithubStrategy from "passport-github2"
 import bcrypt from "bcrypt"
 import userDao from "../daos/mongodb/userDao.js";
 import jwt from "passport-jwt"
+import config from "../config/dotenvConfig.js"
 
 const userManager = new userDao();
 const JWTStrategy = jwt.Strategy;
@@ -47,8 +48,8 @@ export const initializePassport = ()=>{
         }
     }))
     passport.use('github', new GithubStrategy({
-        clientID: 'Iv1.2f26fb4a6aa1bc1b',
-        clientSecret: 'd989e4c1acfe1db5e5b0622a79fcf33055c21c72',
+        clientID: config.CLIENT_ID_GITHUB_STRATEGY,
+        clientSecret: config.CLIENT_SECRET_GITHUB_STRATEGY,
         callbackURL: 'http://localhost:8080/api/sessions/githubcallback',
         scope: ['user:email']
     }, async(accessToken, refreshToken, profile, done)=>{
@@ -74,7 +75,7 @@ export const initializePassport = ()=>{
     ))
     passport.use('jwt', new JWTStrategy({
         jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
-        secretOrKey: process.env.JWT_TOKEN_SECRET,
+        secretOrKey: config.JWT_TOKEN_SECRET,
     },async(jwt_payload, done)=>{
         try {
             done(null, jwt_payload)

@@ -1,10 +1,11 @@
 import MongoStore from 'connect-mongo'
 import session from 'express-session'
+import config from "../../../config/dotenvConfig.js"
 export const sessionMongoStore = session({
     store: MongoStore.create({
-        mongoUrl: process.env.DB_MONGO_URL
+        mongoUrl: config.DB_MONGO_URL
     }),
-    secret: process.env.SESSION_MONGO_STORE_SECRET,
+    secret: config.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
 })

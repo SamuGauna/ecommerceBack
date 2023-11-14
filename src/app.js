@@ -3,15 +3,20 @@ import productRouter from "./routes/productRoutesDB.js";
 import cartRouter from "./routes/cartRoutesDB.js"
 import handlebarsRouter from "./routes/handlebarsRoutes.js"
 import handlebars from "express-handlebars";
-import './db/connection.js'
+import './daos/mongodb/dbConfig/connection.js'
 import { Server, Socket } from "socket.io";
 import { eventsFromSocket } from "./socket/indexSocket.js";
 import sessionRouter from './routes/sessionsRoutes.js'
-import { sessionMongoStore } from "./db/session.js";
+import { sessionMongoStore } from "./daos/mongodb/dbConfig/session.js";
 import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
 import session from "express-session";
 import cookieParser from "cookie-parser";
+import { errorHandler } from "./middlewares/errorHandler.js";
+
+import emailRouter from "./routes/emailRouter.js"
+
+
 
 
 
@@ -41,6 +46,7 @@ app.use(sessionMongoStore)
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
+app.use(errorHandler);
 app.engine('handlebars', hbs.engine)
 
 app.set('views', './src/views')
@@ -54,3 +60,7 @@ app.use('/handlebars', handlebarsRouter)
 app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/api/sessions', sessionRouter)
+app.use('/api/email', emailRouter)
+
+
+

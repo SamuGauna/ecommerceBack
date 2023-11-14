@@ -3,6 +3,7 @@ import bcrypt from "bcrypt";
 import userDao from "../daos/mongodb/userDao.js";
 import passport from "passport";
 import jwt from "jsonwebtoken"
+import config from "../config/dotenvConfig.js"
 const user = new userDao();
 const router = Router();
 
@@ -28,7 +29,7 @@ router.post('/login',passport.authenticate('login', {failureRedirect: '/login'})
         }
         const userjwt = await user.userExist(email)
         const userId = userjwt._id
-        const token = jwt.sign({userId}, process.env.JWT_TOKEN_SECRET, {expiresIn: '24h'})
+        const token = jwt.sign({userId}, config.JWT_TOKEN_SECRET, {expiresIn: '24h'})
         res.cookie('token', token, {
             maxAge: 100000,
             httpOnly: true
