@@ -8,6 +8,7 @@ import {
     deleteProductFromCartController,
     updateProductQuantityController,
     updateAllCartController,
+    buyComplete
 } from "../controllers/cartController.js";
 
 const router = Router();
@@ -20,6 +21,8 @@ router.put("/:cid/product/:pid", updateProductQuantityController );
 router.put("/:cid", updateAllCartController );
 router.delete("/:cid", deleteProductToCartController);
 router.delete("/:cid/product/:pid", deleteProductFromCartController);
+
+router.post("/:cid/purchase", buyComplete)
 
 
 export default router;

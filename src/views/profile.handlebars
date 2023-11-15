@@ -1,17 +1,16 @@
-{{#if userSession.isLogged }}
-        {{#if (userAuthenticated userSession.role)}}
+{{#if userDto }}
+        {{#if (userAuthenticated userDto.user_role)}}
             <div style="text-align: center;">
-                <h1 >Bienvenido {{userSession.firstName}}, tu rol es {{userSession.role}}</h1>
+                <h1 >Bienvenido {{userDto.user_name}}, tu rol es {{userDto.user_role}}</h1>
                 <p>Puedes realizar las siguientes acciones</p>
                 <a href="http://localhost:8080/handlebars/realTimeProducts">Agregar y eliminar productos</a>
                 <a href="http://localhost:8080/api/sessions/signup">Ver los productos hasta el momento</a>
             </div>
         {{else}}
-            <h1 >Bienvenido {{userSession.firstName}}, tu rol es {{userSession.role}}</h1>
+            <h1 >Bienvenido {{userDto.user_name}}, tu rol es {{userDto.user_role}}</h1>
             <a href="http://localhost:8080/api/products">Ver los productos hasta el momento</a>
                     
         {{/if}}
 {{else}}
         <p>Inicia sesión para continuar.</p>
 {{/if}}
-

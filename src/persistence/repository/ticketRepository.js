@@ -10,7 +10,7 @@ export default class ticketRepository {
             for (let i = 0; i < 5; i++) {
             randomChars += possibleChars.charAt(Math.floor(Math.random() * possibleChars.length));
             }
-            let uniqueString = 'TICKET-' + randomChars + '-' + id;
+            let uniqueString = 'TICKET-' + randomChars;
             return uniqueString;
         }
         catch (error) {
@@ -26,11 +26,11 @@ export default class ticketRepository {
             console.log(error);
         }
     }
-    async createTicket(code, purchase_datetime, amount, purchaser) {
+    async createTicket(amount, purchaser) {
         try {
             const newTicket = await ticketModel.create({
-                code,
-                purchase_datetime,
+                code: await this.generateCodeUnique(),
+                purchase_datetime: await this.getConfirmationTime(),
                 amount,
                 purchaser
             });

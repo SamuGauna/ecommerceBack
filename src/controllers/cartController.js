@@ -8,6 +8,9 @@ import {
     updateProductQuantityService,
     updateAllCartService,
 } from "../managers/db/cartManager.js";
+import { getByIdService, updateService } from "../managers/db/productManager.js";
+import ticketRepository from "../persistence/repository/ticketRepository.js";
+const ticket = new ticketRepository();
 
 export const getCartsController = async (req, res, next) => {
     try {
@@ -46,7 +49,7 @@ export const addProductToCartController = async (req, res, next) => {
     try {
         const { cid, pid } = req.params;
         const product = await addProductToCartService(cid,pid);
-      //const product = await addProductToCartService(Number(cid), Number(pid));
+        //const product = await addProductToCartService(Number(cid), Number(pid));
         if (product) {
             res.status(201).send({status: "success",mensaje: "Product successfully added to cart!",payload: product});
         } else {
@@ -119,5 +122,30 @@ export const deleteProductFromCartController = async (req, res, next) => {
         } 
     } catch (error) {
         next(error);
+    }
+}
+export const buyComplete = async (req, res, next) => {
+    try {
+        const { cid } = req.params;
+        const {pid, quantity, user} = req.body
+        const product = await getByIdService(pid);
+        let productosNoProcesados = [];
+        if(product.stock >= quantity){
+            product.stock -= quantity
+            await updateService(pid, {product})
+            await addProductToCartService(cid,pid);
+            await ticket.createTicket(72, user)
+            res.json('Producto confirmado para su compra y ticket generado')
+        }
+        else {
+        productosNoProcesados.push(pid);
+        res.status(400).send({status: "error",mensaje:"No hay suficiente stock"});
+        } 
+        console.log(productosNoProcesados);
+        return productosNoProcesados;
+        
+    } catch (error) {
+        console.error(error);
+        res.status(500).send('Hubo un error al verificar el stock');
     }
 }

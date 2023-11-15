@@ -30,7 +30,8 @@ router.post('/login',passport.authenticate('login', {failureRedirect: '/login'})
     
 )
 router.get('/current', passport.authenticate('jwt', {session: false}), async(req, res)=>{
-    res.send(req.user)
+    const userDto = req.user
+    res.render('profile', {userDto})
 })
 
 
@@ -46,7 +47,7 @@ router.get('/profile', (req, res) => {
         role: req.session.role,
         isLogged: req.session.isLogged
     }
-    res.render('profile', {userSession}) 
+    res.render('profile', {}) 
 });
 router.get('/github',  passport.authenticate('github', {scope: ['user:email']}), async(req, res) => {
     

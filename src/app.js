@@ -38,6 +38,9 @@ const hbs = handlebars.create({
         }
         return false;
     },
+    log: function(something) {
+        console.log(something);
+    }
     },
 });
 initializePassport();
