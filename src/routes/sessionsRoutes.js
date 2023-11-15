@@ -1,10 +1,12 @@
 import { Router } from "express";
 import bcrypt from "bcrypt";
-import userDao from "../daos/mongodb/userDao.js";
+import userRepository from "../persistence/repository/userRepository.js";
 import passport from "passport";
 import jwt from "jsonwebtoken"
 import config from "../config/dotenvConfig.js"
-const user = new userDao();
+import userDto from "../persistence/dtos/userDto.js";
+
+const user = new userRepository();
 const router = Router();
 
 router.get('/', async(req, res)=>{
@@ -15,31 +17,21 @@ router.get('/login', async(req, res)=>{
     res.render('login', {style: 'homestyle.css'})
 })
 router.post('/login',passport.authenticate('login', {failureRedirect: '/login'}), async(req, res)=>{
-        const {login_method, email} = req.body
-        if(login_method === 'session'){
-            req.session.firstName = req.user.firstName
-            req.session.lastName = req.user.lastName
-            req.session.email = req.user.email
-            req.session.age = req.user.age
-            req.session.role = req.user.role
-            req.session.isLogged = true
-            console.log('te logeaste con session');
-            return res.redirect('/api/sessions/profile')
-            
-        }
-        const userjwt = await user.userExist(email)
-        const userId = userjwt._id
+        const userjwt = new userDto(req.user)
+        const userId = userjwt.user_id
         const token = jwt.sign({userId}, config.JWT_TOKEN_SECRET, {expiresIn: '24h'})
         res.cookie('token', token, {
             maxAge: 100000,
             httpOnly: true
         })
-        console.log('te logeaste con token');
         res.redirect('/api/sessions/current')
         
     }
     
 )
+router.get('/current', passport.authenticate('jwt', {session: false}), async(req, res)=>{
+    res.send(req.user)
+})
 
 
 
@@ -47,6 +39,7 @@ router.post('/signup', passport.authenticate('register', {failureRedirect: '/fai
     res.redirect('login')
 });
 router.get('/profile', (req, res) => {
+    console.log(req.user);
     const firstname = req.session.firstName
     const userSession = {
         firstName: req.session.firstName,
@@ -67,9 +60,7 @@ router.get('/githubcallback',  passport.authenticate('github', {failureRedirect:
         req.session.isLogged = true
     res.redirect('/api/sessions/profile')
 });
-router.get('/current', passport.authenticate('jwt', {session: false}), async(req, res)=>{
-    res.send(req.user)
-})
+
 
 
 

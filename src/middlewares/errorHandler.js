@@ -1,4 +1,4 @@
-import { createResponse } from "../utils.js"
+import { createResponse } from "../../utils.js"
 
 export const errorHandler = (error, req, res, next) => {
     console.log( `error ${error.message}`) 

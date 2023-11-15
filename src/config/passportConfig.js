@@ -2,11 +2,12 @@ import passport from "passport";
 import LocalStrategy from "passport-local"
 import GithubStrategy from "passport-github2"
 import bcrypt from "bcrypt"
-import userDao from "../daos/mongodb/userDao.js";
+import userRepository from "../persistence/repository/userRepository.js";
 import jwt from "passport-jwt"
 import config from "../config/dotenvConfig.js"
 
-const userManager = new userDao();
+const userManager = new userRepository();
+
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
 const cookieExtractor = (req)=>{
@@ -78,7 +79,8 @@ export const initializePassport = ()=>{
         secretOrKey: config.JWT_TOKEN_SECRET,
     },async(jwt_payload, done)=>{
         try {
-            done(null, jwt_payload)
+            const user = await userManager.findUser(jwt_payload.userId);
+            done(null, user)
         } catch (error) {
             done(error)
         }

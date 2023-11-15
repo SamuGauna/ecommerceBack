@@ -1,4 +1,4 @@
-import { getCartByIdService } from "../services/cartService.js";
+import { getCartByIdService } from "../managers/db/cartManager.js";
 import { 
     getAllService, 
     getByIdService, 
@@ -6,7 +6,7 @@ import {
     updateService, 
     deleteService, 
     getProdFilterPaginateService
-} from "../services/productService.js";
+} from "../managers/db/productManager.js";
 
 export const getAllController = async (req, res, next) => {
     try {

@@ -1,9 +1,9 @@
-import { cartModel } from "./models/cartModel.js";
-import { productModel } from "./models/productModel.js";
-import ProductManagerMongodb from "./productDao.js";
-const productManager = new ProductManagerMongodb();
+import { cartModel } from "../daos/mongodb/models/cartModel.js";
+import { productModel } from "../daos/mongodb/models/productModel.js";
+import ProductRepository from "./productRepository.js";
+const pRepository= new ProductRepository();
 
-export default class CartsDaoMongo {
+export default class CartRepository {
     async getAllCart() {
         try {
         const response = await cartModel.find({}).populate('products.productId');

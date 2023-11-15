@@ -1,10 +1,10 @@
-import { productModel } from "./models/productModel.js";
+import { productModel } from "../daos/mongodb/models/productModel.js";
 
 
 //aca se va a crear la clase de product manager de mongo 
 
 
-export default class ProductManagerMongodb {
+export default class productRepository {
 async getAllProducts() {
     try {
         const response = await productModel.find({});

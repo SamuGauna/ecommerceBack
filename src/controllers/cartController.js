@@ -7,7 +7,7 @@ import {
     deleteProductFromCartService,
     updateProductQuantityService,
     updateAllCartService,
-} from "../services/cartService.js";
+} from "../managers/db/cartManager.js";
 
 export const getCartsController = async (req, res, next) => {
     try {

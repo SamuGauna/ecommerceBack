@@ -1,6 +1,6 @@
-import { ProductManager } from "../daos/fileSystem/manager/productManager.js";
+import { ProductManager } from "../managers/fs/productManagerFS.js";
 
-import { messagesModel } from "../daos/mongodb/models/messageModel.js";
+import { messagesModel } from "../persistence/daos/mongodb/models/messageModel.js";
 
 
 

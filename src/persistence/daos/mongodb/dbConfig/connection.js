@@ -1,7 +1,7 @@
-import config from "../../../config/dotenvConfig.js"
+import dotenvConfig from "../../../../config/dotenvConfig.js";
 import { connect } from "mongoose";
 
-const connectionString = config.DB_MONGO_URL
+const connectionString = dotenvConfig.DB_MONGO_URL
 
 try {
     await connect(connectionString)

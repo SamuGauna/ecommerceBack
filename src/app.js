@@ -3,11 +3,11 @@ import productRouter from "./routes/productRoutesDB.js";
 import cartRouter from "./routes/cartRoutesDB.js"
 import handlebarsRouter from "./routes/handlebarsRoutes.js"
 import handlebars from "express-handlebars";
-import './daos/mongodb/dbConfig/connection.js'
+import './persistence/daos/mongodb/dbConfig/connection.js'
 import { Server, Socket } from "socket.io";
 import { eventsFromSocket } from "./socket/indexSocket.js";
 import sessionRouter from './routes/sessionsRoutes.js'
-import { sessionMongoStore } from "./daos/mongodb/dbConfig/session.js";
+import { sessionMongoStore } from "./persistence/daos/mongodb/dbConfig/session.js";
 import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
 import session from "express-session";

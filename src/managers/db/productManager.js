@@ -1,5 +1,5 @@
-import productDao from "../daos/mongodb/productDao.js"
-const prodDAOMongo = new productDao()
+import productRepository from "../../persistence/repository/productRepository.js";
+const prodDAOMongo = new productRepository()
 
 
 

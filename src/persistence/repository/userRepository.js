@@ -1,10 +1,10 @@
-import { userModel } from "./models/userModel.js";
+import { userModel } from "../daos/mongodb/models/userModel.js"
 import bcrypt from "bcrypt"
-import CartsDaoMongo from "./cartDao.js";
+import CartRepository from "./cartRepository.js";
 
 
 
-export default class userDao {
+export default class userRepository {
     
     async userExist(email) {
         try {
@@ -31,8 +31,8 @@ export default class userDao {
 
     async userCreate(firstName, lastName, email, age, password) {
         try {
-        const cartDao = new CartsDaoMongo();
-        const newCartUser = await cartDao.createCart()
+        const cart = new CartRepository();
+        const newCartUser = await cart.createCart()
         const response = await userModel.findOne({email})
         if(response){
             return console.log(`El usario con email: ${email}, ya esta registrado`);

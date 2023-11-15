@@ -1,6 +1,6 @@
-import CartsDaoMongo from "../daos/mongodb/cartDao.js";
+import CartRepository from "../../persistence/repository/cartRepository.js";
 
-const cartManager = new CartsDaoMongo();
+const cartManager = new CartRepository();
 
 export const getCartsAllService = async () => {
     try {
