@@ -5,7 +5,10 @@ const HttpStatus = {
     FORBIDDEN: 403,
     INTERNAL_SERVER_ERROR: 500
 };
-
+// 404:  la página o el archivo solicitado no se encontró.
+// 401:  la página a la que intentabas acceder no puede cargarse hasta que primero inicies sesión con un ID de usuario y una contraseña válidos.
+// 403:  el servidor comprende la solicitud, pero se niega a autorizarla. Este estado es similar al 401, pero para el código de estado 403 Forbidden, volver a autenticarse no hace ninguna diferencia.
+// 500:  algo salió mal en el servidor del sitio web, pero el servidor no pudo ser más específico sobre cuál es el problema exacto.
 export class HttpResponse {
     Ok(res, data){
         return res.status(HttpStatus.OK).json({

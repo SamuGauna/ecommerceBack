@@ -1,7 +1,8 @@
-import { createResponse } from "../../utils.js"
-
-export const errorHandler = (error, req, res, next) => {
-    console.log( `error ${error.message}`) 
-    const status = error.status
-    createResponse(res, status, error.message)
+export const errorMiddleware = (error, req, res, next) => {
+    console.log(error);
+    const status = error.statusCode || 500
+    res.status(status).send({
+        error: error.name,
+        message: error.message
+    })
 }

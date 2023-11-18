@@ -5,16 +5,19 @@ import {
     createController, 
     updateController, 
     deleteController,
-    getProdFilterPaginateController
+    getProdFilterPaginateController,
+    createFakerProductsController
 } from "../controllers/productController.js";
 
 
 const router = Router();
-
+router.get('/mockingproducts', createFakerProductsController)
 router.get('/', getProdFilterPaginateController)
 router.get('/:id', getByIdController)
 router.post('/', createController)
 router.put('/:id', updateController)
 router.delete('/:id', deleteController)
+
+
 
 export default router;

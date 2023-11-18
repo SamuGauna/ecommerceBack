@@ -1,4 +1,5 @@
 import productRepository from "../../persistence/repository/productRepository.js";
+import { generateProductFaker } from "../../services/faker.js";
 const prodDAOMongo = new productRepository()
 
 
@@ -61,3 +62,16 @@ export const deleteService = async(id)=>{
         console.log(error);
     }
 };
+export const createProductFaker = async()=> {
+    try {
+        let productsFaker = [];
+    for(let i = 0; i < 100; i++) {
+        const productFake = await generateProductFaker();
+        productsFaker.push(productFake);
+    }
+    return productsFaker
+    } catch (error) {
+        console.log(`Error en createProductFaker: ${error}`);
+        throw error;
+    }
+}

@@ -1,3 +1,4 @@
+
 import { productModel } from "../daos/mongodb/models/productModel.js";
 
 
@@ -72,4 +73,5 @@ async deleteProduct(id) {
         console.log(error);
     }
 }
+
 }

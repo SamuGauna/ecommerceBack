@@ -5,7 +5,8 @@ import {
     createService, 
     updateService, 
     deleteService, 
-    getProdFilterPaginateService
+    getProdFilterPaginateService,
+    createProductFaker
 } from "../managers/db/productManager.js";
 
 export const getAllController = async (req, res, next) => {
@@ -94,5 +95,14 @@ export const deleteController = async (req, res, next) => {
         res.json({message:'product deleted successfully'})
     } catch (error) {
         next(error)
+    }
+}
+export const createFakerProductsController = async (req, res) => {
+    try {
+        const response = await createProductFaker()
+        res.json(response)
+    } catch (error) {
+        console.error(`Error en createFakerProductsController: ${error}`);
+        res.status(500).json({ error: 'Internal Server Error' });
     }
 }

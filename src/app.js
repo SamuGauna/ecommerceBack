@@ -12,9 +12,10 @@ import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import { errorHandler } from "./middlewares/errorHandler.js";
+
 
 import emailRouter from "./routes/emailRouter.js"
+import { errorMiddleware } from "./middlewares/errorHandler.js";
 
 
 
@@ -49,7 +50,7 @@ app.use(sessionMongoStore)
 app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
-app.use(errorHandler);
+app.use(errorMiddleware);
 app.engine('handlebars', hbs.engine)
 
 app.set('views', './src/views')
