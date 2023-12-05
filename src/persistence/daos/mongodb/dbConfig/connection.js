@@ -1,11 +1,12 @@
 import dotenvConfig from "../../../../config/dotenvConfig.js";
 import { connect } from "mongoose";
+import { logger } from "../../../../utils/loggers.js";
 
 const connectionString = dotenvConfig.DB_MONGO_URL
 
 try {
     await connect(connectionString)
-        console.log('conectado a la database de Mongo');
+        logger.info('conectado a la database de Mongo');
     } catch (error) {
-        console.log(error);
+        logger.error(error);
 }

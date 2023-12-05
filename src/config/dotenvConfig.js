@@ -9,5 +9,6 @@ export default {
     PORT_NODEMAILER: process.env.PORT_NODEMAILER,
     PORT_GMAIL: process.env.PORT_GMAIL, 
     NODEMAILER_PASSWORD_GMAIL: process.env.NODEMAILER_PASSWORD_GMAIL,
-    NODEMAILER_USER_GMAIL: process.env.NODEMAILER_USER_GMAIL
+    NODEMAILER_USER_GMAIL: process.env.NODEMAILER_USER_GMAIL,
+    NODE_ENV: process.env.NODE_ENV || 'development'
 }

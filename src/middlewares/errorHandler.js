@@ -6,3 +6,5 @@ export const errorMiddleware = (error, req, res, next) => {
         message: error.message
     })
 }
+
+

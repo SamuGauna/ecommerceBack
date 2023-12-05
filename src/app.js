@@ -1,3 +1,4 @@
+
 import express from "express";
 import productRouter from "./routes/productRoutesDB.js";
 import cartRouter from "./routes/cartRoutesDB.js"
@@ -17,14 +18,14 @@ import cookieParser from "cookie-parser";
 import emailRouter from "./routes/emailRouter.js"
 import { errorMiddleware } from "./middlewares/errorHandler.js";
 
-
-
+import loggerRouter from "./routes/loggerRouter.js"
+import { logger } from "./utils/loggers.js";
 
 
 const app = express();
 const PORT = 8080
 app.listen(PORT, ()=>{
-    console.log(`listening on port ${PORT}`);
+    logger.info(`listening on port ${PORT}`);
 })
 // const socketServer = new Server(app.listen(8081, ()=>{
 //     console.log(`listening on port 8081 with socket server`);
@@ -65,6 +66,4 @@ app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
 app.use('/api/sessions', sessionRouter)
 app.use('/api/email', emailRouter)
-
-
-
+app.use('/', loggerRouter)
