@@ -5,6 +5,9 @@ import passport from "passport";
 import jwt from "jsonwebtoken"
 import config from "../config/dotenvConfig.js"
 import userDto from "../persistence/dtos/userDto.js";
+import { logger } from "../utils/loggers.js";
+import { createHash } from "../utils/bcrypt.js";
+import { roleValidationMiddleware } from "../middlewares/role.js";
 
 const user = new userRepository();
 const router = Router();
@@ -61,6 +64,54 @@ router.get('/githubcallback',  passport.authenticate('github', {failureRedirect:
         req.session.isLogged = true
     res.redirect('/api/sessions/profile')
 });
+
+router.get('/passRecovery', async(req, res)=>{
+    res.render('forgotPassword', {style: 'homestyle.css'})
+})
+router.get('/passChange', async(req, res)=>{
+    
+        res.render('passwordChange', {style: 'homestyle.css'})
+    
+})
+router.put('/updatePass', passport.authenticate('jwt', {session: false}), async(req, res) => {
+    const { newPassword, newPasswordConfirm } = req.body;
+    if (newPassword !== newPasswordConfirm) {
+        return res.status(400).json({ error: 'Las contraseñas no coinciden' });
+    }
+        try {
+            await user.updatePassword(req.user.user_id, createHash(newPassword));
+            logger.info("Contraseña actualizada");
+            res.json({ success: true });
+        } catch (error) {
+            logger.error(error);
+            res.status(500).send({ error: 'Hubo un error al actualizar la contraseña' });
+        }
+});
+router.get('/premiumUsers',passport.authenticate('jwt', {session: false}), roleValidationMiddleware, async(req, res)=>{
+    try {
+        let allusers = await user.getAllUsers()
+        let usersDtoArray = allusers.map(user => new userDto(user));
+        res.render('premiumUsers', {usersDtoArray})
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send({ error: 'Hubo un error' });
+    }
+    
+})
+router.put('/premium/:uid',passport.authenticate('jwt', {session: false}), roleValidationMiddleware, async(req, res)=>{
+    try {
+        const { uid } = req.params
+        const userupdate = await user.addPremiumUser(uid)
+        const userdto = new userDto(userupdate)
+        res.json(userdto)
+    } catch (error) {
+        logger.error(error);
+        res.status(500).send({ error: 'Hubo un error al actualizar el rol' });
+    }
+    
+})
+
+
 
 
 

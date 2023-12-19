@@ -1,4 +1,5 @@
 
+import { logger } from "../../utils/loggers.js";
 import { productModel } from "../daos/mongodb/models/productModel.js";
 
 
@@ -11,7 +12,8 @@ async getAllProducts() {
         const response = await productModel.find({});
         return response;
     } catch (error) {
-        console.log(error);
+        logger.warn('getAllRepository')
+        logger.error(error)
     }
 }
 async getProdFilterPaginate(modelTypeElement, modelLimit, modelPage, modelSort) {

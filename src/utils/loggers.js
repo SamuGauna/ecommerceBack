@@ -6,15 +6,15 @@ import dotenvConfig from "../config/dotenvConfig.js";
 const {combine, printf, timestamp, colorize, prettyPrint } = format
 
 const logDev = {
-    level: 'debug', 
+    level: 'debug',
     format: combine(
         timestamp({
             format: 'DD-MMM-YYYY HH:mm'
         }),
         colorize(),
         printf((info)=> `${info.level} | ${info.timestamp} | ${info.message}`)
-    ), 
-    transports: [ 
+    ),
+    transports: [
         new transports.Console(),
         new transports.File({
             filename: './src/persistence/daos/fileSystem/logs/errors.log',
@@ -23,18 +23,27 @@ const logDev = {
     ]
 }
 const logProd = {
-    level: 'info', 
+    level: 'info',
     format: combine(
         timestamp({
             format: 'DD-MMM-YYYY HH:mm'
         }),
         colorize(),
-        printf((info)=> `${info.level} || ${info.message}`)
-    ), 
+        printf((info)=> `${info.level} | ${info.timestamp} | ${info.message}`)
+    ),
     transports: [ new transports.Console() ]
 }
 console.log('NODE_ENV:', dotenvConfig.NODE_ENV);
-const selectedConfig = dotenvConfig.NODE_ENV == 'production' ? logProd : logDev;
+
+const selectedConfig = dotenvConfig.NODE_ENV.trim() === 'production' ? logProd : logDev;
+// if(dotenvConfig.NODE_ENV == 'prod'){
+//     selectedConfig = logProd
+//     console.log(true);
+// } else{
+//     selectedConfig = logDev
+//     console.log(false);
+// }
+
 //console.log('Selected Config:', selectedConfig);
 //console.log('process.env:', process.env);
 

@@ -8,13 +8,15 @@ import {
     getProdFilterPaginateService,
     createProductFaker
 } from "../managers/db/productManager.js";
+import { logger } from "../utils/loggers.js";
 
 export const getAllController = async (req, res, next) => {
     try {
         const doc = await getAllService();
         res.json(doc);
     } catch (error) {
-        next(error)
+        logger.warn('getAllController')
+        logger.error(error)
     }
 }
 export const getProdFilterPaginateController = async (req, res, next) => {

@@ -1,10 +1,22 @@
 {{#if userDto }}
         {{#if (userAuthenticated userDto.user_role)}}
-            <div style="text-align: center;">
+            <div style="text-align: center; ">
                 <h1 >Bienvenido {{userDto.user_name}}, tu rol es {{userDto.user_role}}</h1>
                 <p>Puedes realizar las siguientes acciones</p>
-                <a href="http://localhost:8080/handlebars/realTimeProducts">Agregar y eliminar productos</a>
-                <a href="http://localhost:8080/api/sessions/signup">Ver los productos hasta el momento</a>
+                <section style="display:flex; justify-content: space-around;">
+                    <div style="display: flex; flex-direction: column;">
+                        <img src="/img/4639967.png" width="250px" height="250px" alt="add and delete products">
+                        <a href="http://localhost:8080/handlebars/realTimeProducts">Agregar y eliminar productos</a>
+                    </div>
+                <div style="display: flex; flex-direction: column;">
+                    <img src="/img/iconmonstr-product-3.png" width="250px" height="250px" alt="all products">
+                    <a href="http://localhost:8080/api/sessions/signup">Ver los productos hasta el momento</a>
+                </div>
+                <div style="display: flex; flex-direction: column;">
+                    <img src="/img/6385995.png" width="250px" height="250px" alt="premium user">
+                    <a href="http://localhost:8080/api/sessions/premiumUsers">Agregar o quitar usuarios premium</a>
+                </div>
+                </section>
             </div>
         {{else}}
             <h1 >Bienvenido {{userDto.user_name}}, tu rol es {{userDto.user_role}}</h1>

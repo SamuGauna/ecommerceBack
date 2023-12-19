@@ -9,7 +9,20 @@ const productSchema = new mongoose.Schema({
     thumbnail:{type: String, required: true},
     code:{type: String, required: true},
     stock: {type: Number, required: true},
-    status:{type: Boolean, required: true}
+    status:{type: Boolean, required: true},
+    owner: {
+        type:{
+            role: {
+                type: String,
+                enum: ['admin', 'premium'],
+                default: 'admin'
+            },
+            email: {
+                type: String,
+                required: true
+            }
+        } 
+    }
 
 },{timestamps: true}
 )

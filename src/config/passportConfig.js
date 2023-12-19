@@ -10,13 +10,16 @@ const userManager = new userRepository();
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
-const cookieExtractor = (req)=>{
-    let token = null
-    if(req && req.cookies){
-        token = req.cookies['token']
+const cookieExtractor = (req) => {
+    let token = null;
+    if (req && req.cookies && req.cookies['token']) {
+        token = req.cookies['token'];
     }
-    return token
-}
+    if (!token && req && req.cookies && req.cookies['tokenPassword']) {
+        token = req.cookies['tokenPassword'];
+    }
+    return token;
+};
 
 export const initializePassport = ()=>{
     passport.use('register', new LocalStrategy({ passReqToCallback: true, usernameField: 'email'}, async(req, username, password, done)=>{
@@ -80,7 +83,7 @@ export const initializePassport = ()=>{
     },async(jwt_payload, done)=>{
         try {
             const user = await userManager.findUser(jwt_payload.userId);
-             const dtoUser = new userDto(user)
+            const dtoUser = new userDto(user)
             done(null, dtoUser)
         } catch (error) {
             done(error)

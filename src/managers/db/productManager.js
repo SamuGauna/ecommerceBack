@@ -1,5 +1,6 @@
 import productRepository from "../../persistence/repository/productRepository.js";
 import { generateProductFaker } from "../../services/faker.js";
+import { logger } from "../../utils/loggers.js";
 const prodDAOMongo = new productRepository()
 
 
@@ -9,7 +10,8 @@ export const getAllService = async()=>{
         const docs = await prodDAOMongo.getAllProducts();
         return docs;
     } catch (error) {
-        console.log(error);
+        logger.warn('getAllService-Manager')
+        logger.error(error);
     }
 };
 export const getProdFilterPaginateService = async(modelTypeElement, modelLimit, modelPage, modelSort)=>{

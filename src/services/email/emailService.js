@@ -1,5 +1,6 @@
 import { createTransport } from "nodemailer";
-import config from "../config/dotenvConfig.js";
+import config from "../../config/dotenvConfig.js";
+import { templateHTML } from "./templatesEmailModel.js/templateEmail.js";
 
 
 // las credenciales de ethereal se sacan de https://ethereal.email/
@@ -33,7 +34,7 @@ export const transporter2 = createTransport({
 export const gmailMessage = {
     from: config.NODEMAILER_USER_GMAIL,
     to: "lefyimeyda@gufum.com",
-    subject: "Holanda",
-    text: "Fuck of",
-    html: "<p>HTML version of the message</p>"
+    subject: "Restauracion de contraseña",
+    text: "",
+    html: templateHTML
 }
