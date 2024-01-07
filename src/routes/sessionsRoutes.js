@@ -20,17 +20,15 @@ router.get('/login', async(req, res)=>{
     res.render('login', {style: 'homestyle.css'})
 })
 router.post('/login',passport.authenticate('login', {failureRedirect: '/login'}), async(req, res)=>{
-        const userjwt = new userDto(req.user)
-        const userId = userjwt.user_id
-        const token = jwt.sign({userId}, config.JWT_TOKEN_SECRET, {expiresIn: '24h'})
-        res.cookie('token', token, {
-            maxAge: 100000,
-            httpOnly: true
-        })
-        res.redirect('/api/sessions/current')
-        
+    const userjwt = new userDto(req.user)
+    const userId = userjwt.user_id
+    const token = jwt.sign({userId}, config.JWT_TOKEN_SECRET, {expiresIn: '24h'})
+    res.cookie('token', token, {
+        maxAge: 100000,
+        httpOnly: true
+    })
+    res.redirect('/api/users/current')
     }
-    
 )
 router.get('/current', passport.authenticate('jwt', {session: false}), async(req, res)=>{
     const userDto = req.user
@@ -62,7 +60,7 @@ router.get('/githubcallback',  passport.authenticate('github', {failureRedirect:
         req.session.age = req.user.age
         req.session.role = req.user.role
         req.session.isLogged = true
-    res.redirect('/api/sessions/profile')
+    res.redirect('/api/users/profile')
 });
 
 router.get('/passRecovery', async(req, res)=>{

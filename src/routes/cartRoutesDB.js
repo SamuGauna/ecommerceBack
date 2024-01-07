@@ -14,15 +14,16 @@ import {
 const router = Router();
 
 router.get("/", getCartsController);
-router.get("/:cid", getCartByIdController);
 router.post("/", createCartController);
-router.post("/:cid/product/:pid", addProductToCartController);
-router.put("/:cid/product/:pid", updateProductQuantityController );
+router.get("/:cid", getCartByIdController);
 router.put("/:cid", updateAllCartController );
 router.delete("/:cid", deleteProductToCartController);
+router.post("/:cid/purchase", buyComplete)
+router.post("/:cid/product/:pid", addProductToCartController);
+router.put("/:cid/product/:pid", updateProductQuantityController );
 router.delete("/:cid/product/:pid", deleteProductFromCartController);
 
-router.post("/:cid/purchase", buyComplete)
+
 
 
 export default router;

@@ -13,7 +13,10 @@ import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-
+import helmet from "helmet";
+import swaggerUI  from "swagger-ui-express";
+import swaggerJSDoc from "swagger-jsdoc";
+import { swaggerOpts } from "./docs/swaggerOpts.js";
 
 import emailRouter from "./routes/emailRouter.js"
 import { errorMiddleware } from "./middlewares/errorHandler.js";
@@ -31,6 +34,9 @@ app.listen(PORT, ()=>{
 //     console.log(`listening on port 8081 with socket server`);
 // }))
 // eventsFromSocket(socketServer)
+
+const specs = swaggerJSDoc(swaggerOpts)
+app.use('/docs', swaggerUI.serve, swaggerUI.setup(specs))
 
 const hbs = handlebars.create({
     helpers: {
@@ -52,6 +58,7 @@ app.use(cookieParser());
 app.use(express.urlencoded({extended:true}))
 app.use(express.json())
 app.use(errorMiddleware);
+app.use(helmet())
 app.engine('handlebars', hbs.engine)
 
 app.set('views', './src/views')
@@ -64,6 +71,6 @@ app.use(express.static('./public'))
 app.use('/handlebars', handlebarsRouter)
 app.use('/api/products', productRouter)
 app.use('/api/carts', cartRouter)
-app.use('/api/sessions', sessionRouter)
+app.use('/api/users', sessionRouter)
 app.use('/api/email', emailRouter)
 app.use('/', loggerRouter)

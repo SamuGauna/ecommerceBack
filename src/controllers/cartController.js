@@ -51,9 +51,9 @@ export const addProductToCartController = async (req, res, next) => {
         const product = await addProductToCartService(cid,pid);
         //const product = await addProductToCartService(Number(cid), Number(pid));
         if (product) {
-            res.status(201).send({status: "success",mensaje: "Product successfully added to cart!",payload: product});
+            res.status(201).send({status: "success",message: "Product successfully added to cart!",payload: product});
         } else {
-            res.status(404).send({status: "error",mensaje:"The product or cart you are searching for could not be found!"});
+            res.status(404).send({status: "error",message:"The product or cart you are searching for could not be found!"});
         } 
     } catch (error) {
         next(error);
@@ -101,7 +101,7 @@ export const deleteProductToCartController = async (req, res, next) => {
         const productsDeleted = await deleteProductToCartService(cid); 
       //const productsDeleted = await deleteProductToCartService(Number(cid)); 
         if (productsDeleted ) {
-            res.status(201).send({status: "success",mensaje: "Product/s successfully deleted from cart!",payload: productsDeleted });
+            res.status(201).send({status: "success",message: "Product/s successfully deleted from cart!",payload: productsDeleted });
         } else {
         res.status(404).send({status: "error",mensaje:"The product or cart you are searching for could not be found!"});
         } 
@@ -116,9 +116,9 @@ export const deleteProductFromCartController = async (req, res, next) => {
         const productDeleted = await deleteProductFromCartService(cid,pid); 
         //const productDeleted = await deleteProductFromCartService(Number(cid), Number(pid)); 
         if (productDeleted ) {
-        res.status(201).send({status: "success",mensaje: "The product/s you have selected has/have been successfully deleted from cart!"});
+        res.status(201).send({status: "success",message: "The product/s you have selected has/have been successfully deleted from cart!"});
         } else {
-        res.status(404).send({status: "error",mensaje:"The product or cart you are searching for could not be found!"});
+        res.status(404).send({status: "error",message:"The product or cart you are searching for could not be found!"});
         } 
     } catch (error) {
         next(error);

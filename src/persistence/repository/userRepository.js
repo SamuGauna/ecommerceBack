@@ -11,11 +11,13 @@ export default class userRepository {
         try {
         const response = await userModel.findOne({email})
         if(!response){
-            return logger.warn(`This email doesnt exist`);
+            logger.warn(`This email doesnt exist`)
+            return null
         }
         return response
         } catch (error) {
-        console.log(error);
+            logger.error(error);
+            throw error; 
         }
     }
     async roleValidation(email) {
@@ -41,7 +43,7 @@ export default class userRepository {
         if(response){
             return console.log(`El usario con email: ${email}, ya esta registrado`);
         }
-        const roleFilter = await this.roleValidation(email, password)
+        const roleFilter = await this.roleValidation(email)
         const newUser = await userModel.create({
             firstName, 
             lastName, 
@@ -49,7 +51,7 @@ export default class userRepository {
             age, 
             password: bcrypt.hashSync(password, bcrypt.genSaltSync(10)),
             cart: newCartUser,
-            role: roleFilter
+            role:  roleFilter ? roleFilter.toString() : 'usuario',
         })
         return newUser
         } catch (error) {
@@ -81,8 +83,9 @@ export default class userRepository {
     async addPremiumUser(uid){
         try {
             const user = await this.findUser(uid)
-            const userUpdateRole = await userModel.updateOne({_id: user._id}, {role: 'premium'})
-            return user
+            await userModel.updateOne({_id: user._id}, {role: 'premium'})
+            const updatedUser = await this.findUser(uid);
+            return updatedUser;
         } catch (error) {
             logger.warn('error en el addPremiumUser')
             logger.error(error)
@@ -95,6 +98,14 @@ export default class userRepository {
         } catch (error) {
             logger.warn('error en el getallusers')
             logger.error(error)
+        }
+    }
+    async deleteUser(id) {
+        try {
+            const response = await userModel.findByIdAndDelete(id);
+            return response;
+        } catch (error) {
+            console.log(error);
         }
     }
 

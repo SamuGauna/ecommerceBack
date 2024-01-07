@@ -64,10 +64,10 @@ export const deleteService = async(id)=>{
         console.log(error);
     }
 };
-export const createProductFaker = async()=> {
+export const createProductFaker = async(fakerQuantity)=> {
     try {
         let productsFaker = [];
-    for(let i = 0; i < 100; i++) {
+    for(let i = 0; i < Number(fakerQuantity); i++) {
         const productFake = await generateProductFaker();
         productsFaker.push(productFake);
     }

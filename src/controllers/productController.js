@@ -13,7 +13,7 @@ import { logger } from "../utils/loggers.js";
 export const getAllController = async (req, res, next) => {
     try {
         const doc = await getAllService();
-        res.json(doc);
+        res.status(200).send({status: "success",message: "Get all products",payload: doc });
     } catch (error) {
         logger.warn('getAllController')
         logger.error(error)
@@ -30,7 +30,7 @@ export const getProdFilterPaginateController = async (req, res, next) => {
         const modelLimit = limit ? parseInt(limit, 10) : 10;
         const modelPage = page ? parseInt(page, 10) : 1;
         const modelSort = sortObjectMapper[sort] ?? undefined;
-        const doc = await getProdFilterPaginateService(modelTypeElement, modelLimit, modelPage, modelSort);
+        const products = await getProdFilterPaginateService(modelTypeElement, modelLimit, modelPage, modelSort);
         const cart = await getCartByIdService("6513322471de1bde07ea5d2d")
         let totalQuantity = 0;
         if (Array.isArray(cart.products)) {
@@ -39,7 +39,19 @@ export const getProdFilterPaginateController = async (req, res, next) => {
             });
         }
         //res.render('productsDB', {products: doc.payload, quantityProdId: totalQuantity});
-        res.json(doc)
+        res.status(200).send({
+            status: "success", 
+            payload: products.docs, 
+            totalDocs: products.totalDocs,
+            limit: products.limit,
+            totalPages: products.totalPages,
+            page: products.page,
+            pagingCounter: products.pagingCounter,
+            hasPrevPage: products.hasPrevPage,
+            hasNextPage: products.hasNextPage,
+            prevPage: products.prevPage,
+            nextPage: products.nextPage
+        })
     } catch (error) {
         next(error)
     }
@@ -48,14 +60,13 @@ export const getByIdController = async (req, res, next) => {
     try {
         const {id} = req.params;
         const doc = await getByIdService(id);
-        res.json(doc)
+        res.status(200).send({status: "success",message: "Product found",payload: doc });
     } catch (error) {
-        next(error)
+        console.log(`error en getbyidcontroller ${error}`)
     }
 }
 export const createController = async (req, res, next) => {
     try {
-       
         const {title, description, price,thumbnail, code, stock, status} = req.body;
         const newDoc = await createService({
             title, 
@@ -66,7 +77,7 @@ export const createController = async (req, res, next) => {
             stock,
             status
         })
-        res.json(newDoc)
+        res.status(200).send({status: "success",message: "Product create successfully",payload: newDoc });
     } catch (error) {
         next(error)
     }
@@ -85,7 +96,7 @@ export const updateController = async (req, res, next) => {
             stock,
             status
         })
-        res.json(docUpd);
+        res.status(200).send({status: "success",message: "Product update successfully",payload: docUpd });
     } catch (error) {
         next(error)
     }
@@ -93,16 +104,17 @@ export const updateController = async (req, res, next) => {
 export const deleteController = async (req, res, next) => {
     try {
         const {id} = req.params;
-        await deleteService(id);
-        res.json({message:'product deleted successfully'})
+        const prodDelete = await deleteService(id);
+        res.status(200).send({status: "success",message: "Product deleted successfully",payload: prodDelete });
     } catch (error) {
         next(error)
     }
 }
 export const createFakerProductsController = async (req, res) => {
     try {
-        const response = await createProductFaker()
-        res.json(response)
+        const {fakerQuantity} = req.query
+        const response = await createProductFaker(fakerQuantity)
+        res.status(200).send({status: "success",message: "Faker products create successfully",payload: response });
     } catch (error) {
         console.error(`Error en createFakerProductsController: ${error}`);
         res.status(500).json({ error: 'Internal Server Error' });

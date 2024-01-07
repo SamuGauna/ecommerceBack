@@ -1,0 +1,151 @@
+paths:
+  /api/products:
+    get:
+      summary: get all products paginate
+      tags:
+        - Products
+      parameters:
+        - name: limit
+          in: query
+          schema:
+            type: integrer
+          description: limit of pages
+        - name: page
+          in: query
+          schema:
+            type: number
+          description: number of pages 
+        - name: sort
+          in: query
+          schema:
+            type: integer
+            enum:
+              - 1
+              - -1
+          description: order(asc:1, desc:-1)
+        - name: query
+          in: query
+          schema:
+            type: object
+          description: property that you want filter
+      responses:
+        "200":
+          description: Get all products paginate
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProductsPaginateResponse'
+    post:
+      summary: create product
+      tags: 
+        - Products
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProdRequest'
+      responses: 
+        "200":
+          description: Product create
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createProdResponse'
+  /api/products/{id}:
+    get:
+      summary: get product by id
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the product
+          examples:
+            exampleID:
+              value: 65132bc89d71b249f758be0f
+      responses:
+        "200":
+          description: product gets successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetProdByIdResponse'
+    put:
+      summary: update product
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: product id to update
+          examples:
+            exampleID:
+              value: 65132c7b9d71b249f758be15
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateProdRequest'
+      responses:
+        "200":
+          description: Product updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createProdResponse'
+    delete:
+      summary: delete product
+      tags:
+        - Products
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the product to be eliminated
+      responses:
+        "200":
+          description: Product deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProdResponse'
+  /api/products/allProducts:
+    get:
+      summary: get all products
+      tags:
+        - Products
+      responses:
+        "200":
+          description: Get all products completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetAllProdResponse'
+  /api/products/mockingproducts:
+    get:
+      summary: create faker products
+      tags:
+        - Products
+      parameters:
+        - name: fakerQuantity
+          in: query
+          schema:
+            type: string
+          description: the number of products you want to create with faker
+      responses:
+        "200":
+          description: Faker products create successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FakerQuantityResponse'

@@ -139,4 +139,13 @@ export default class CartRepository {
         console.log(error);
         }
     }
+    async deleteCart(id) {
+        try {
+            const response = await cartModel.findByIdAndDelete(id);
+            return response;
+        } catch (error) {
+            console.log(error);
+        }
     }
+    
+}

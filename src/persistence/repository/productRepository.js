@@ -14,6 +14,7 @@ async getAllProducts() {
     } catch (error) {
         logger.warn('getAllRepository')
         logger.error(error)
+        throw error; 
     }
 }
 async getProdFilterPaginate(modelTypeElement, modelLimit, modelPage, modelSort) {
@@ -24,20 +25,7 @@ async getProdFilterPaginate(modelTypeElement, modelLimit, modelPage, modelSort) 
             sort: modelSort,
             lean: true
         });
-        const response = {
-            status: "success",
-            payload: products.docs,
-            totalDocs: products.totalDocs,
-            limit: products.limit,
-            totalPages: products.totalPages,
-            page: products.page,
-            pagingCounter: products.pagingCounter,
-            hasPrevPage: products.hasPrevPage,
-            hasNextPage: products.hasNextPage,
-            prevPage: products.prevPage,
-            nextPage: products.nextPage
-        }
-        return response
+        return products
     } catch (error) {
         console.log(error);
     }

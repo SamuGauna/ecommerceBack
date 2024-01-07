@@ -1,0 +1,267 @@
+components:
+  schemas:
+    PRODUCT:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Title of the product
+          maxLength: 100
+        description:
+          type: string
+          description: Description of the product
+        price:
+          type: number
+          description: Price of the product
+        thumbnail:
+          type: string
+          description: URL or path to the product's thumbnail image
+        code:
+          type: string
+          description: Unique code or identifier for the product
+        stock:
+          type: number
+          description: Available stock quantity of the product
+        status:
+          type: boolean
+          description: Status of the product (e.g., active or inactive)
+        owner:
+          type: object
+          properties:
+            role:
+              type: string
+              enum:
+                - admin
+                - premium
+              default: admin
+              description: Role of the product owner
+            email:
+              type: string
+              description: Email of the product owner
+              format: email
+      required:
+        - title
+        - description
+        - price
+        - thumbnail
+        - code
+        - stock
+        - status
+        - owner
+    GetProductsPaginateResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: if operation its ok or not
+        payload: 
+          type: array
+          description: list of products
+        totalDocs:
+          type: number
+          description: total docs filter
+        limit: 
+          type: number
+          description: limit docs filter
+        totalPages:
+          type: number
+          description: total pages
+        page: 
+          type: number
+          description: number of page
+        pagingCounter:
+          type: number
+          description: total pages counter
+        hasPrevPage: 
+          type: boolean
+          description: has prev page?
+        hasNextPage: 
+          type: boolean
+          description: has next page?
+        prevPage: 
+          type: integer
+          nullable: true
+          description: prev page
+        nextPage: 
+          type: number
+          nullable: true
+          description: next page
+      example:
+        {"status": "success",
+        "payload": [{"array of products"}],
+        "totalDocs": 6,
+        "limit": 10,
+        "totalPages": 1,
+        "page": 1,
+        "pagingCounter": 1,
+        "hasPrevPage": false,
+        "hasNextPage": false,
+        "prevPage": null,
+        "nextPage": null}
+    createProdResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: if operation its ok or not
+        message:
+          type: string
+          description: was success or not
+        payload: 
+          type: array
+          description: product created
+          properties:
+            _id: 
+              type: objectId
+              description: product id
+            title: 
+              type: string
+              description: title
+            description: 
+              type: string
+              description: description 
+            price:
+              type: number
+              description: price 
+            thumbnail: 
+              type: string
+              description: url img 
+            code: 
+              type: string
+              description: code unique 
+            stock:
+              type: number
+              description: stock 
+            status: 
+              type: boolean
+              description: true=ok - false=not ok
+      example:
+        status: "success"
+        message: "Product create or update successfully"
+        payload: {"Product create or update"}
+    CreateProdRequest:
+      type: object
+      properties:
+        title: 
+          type: string
+          description: title
+        description: 
+          type: string
+          description: description 
+        price:
+          type: number
+          description: price 
+        thumbnail: 
+          type: string
+          description: url img 
+        code: 
+          type: string
+          description: code unique 
+        stock:
+          type: number
+          description: stock 
+        status: 
+          type: boolean
+          description: true=ok - false=not ok
+      example: 
+        title: "Martillo"
+        description: "Nuevo"
+        price: 250
+        thumbnail: "https://http2.mlstatic.com/D_NQ_NP_950089-MLU70406708312_072023-O.webp"
+        code: "1sas450"
+        stock: 10
+        status: true
+    GetProdByIdResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: it success or not
+        message:
+          type: string
+          description: was found or not
+        payload:
+          type: object
+          properties:
+            title: 
+              type: string
+              description: title
+            description: 
+              type: string
+              description: description 
+            price:
+              type: number
+              description: price 
+            thumbnail: 
+              type: string
+              description: url img 
+            code: 
+              type: string
+              description: code unique 
+            stock:
+              type: number
+              description: stock 
+            status: 
+              type: boolean
+              description: true=ok - false=not ok
+      example:
+        status: "success"
+        message: "Product found"
+        payload: 
+          _id: "65132b639d71b249f758be0d"
+          title: "Martillo"
+          description: "Nuevo"
+          price: 250
+          thumbnail: "https://http2.mlstatic.com/D_NQ_NP_950089-MLU70406708312_072023-O.webp"
+          code: "1sas450"
+          stock: 10
+          status: true
+    DeleteProdResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: it success or not
+        message:
+          type: string
+          description: was deleted or not
+        payload:
+          type: object eliminated
+      example:
+        status: "success"
+        message: "Product deleted successfully"
+        payload: 
+          productRemoved: properties
+    GetAllProdResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: if operation its ok or not
+        message:
+          type: string
+          description: was success or not
+        payload: 
+          type: array
+          description: list of products
+      example:
+        status: "success"
+        message: "Get all products"
+        payload: listOfAllProducts
+    FakerQuantityResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: if operation its ok or not
+        message:
+          type: string
+          description: was success or not
+        payload: 
+          type: array
+          description: products created
+      example:
+        status: "success"
+        message: "Faker products create successfully"
+        payload: list of product created with faker
+    

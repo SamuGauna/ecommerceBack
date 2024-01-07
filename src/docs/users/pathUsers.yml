@@ -1,0 +1,278 @@
+paths:
+  /api/users:
+    get:
+      summary: render home page
+      tags:
+        - Users
+      responses:
+        "200":
+          description: render page home
+          content:
+            text/html:
+              schema:
+                type: string
+                example: Pagina de inicio HTML
+  /api/users/login:
+    get:
+      summary: render login page
+      tags: 
+        - Users
+      responses: 
+        "200":
+          description: render login page
+          content:
+            text/html:
+              schema:
+                type: string
+                example: Pagina de inicio HTML
+    post:
+      summary: User Authenticate & render current page
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserLoginRequest'
+      security:
+        - passport: []
+      responses:
+        "200":
+          description: success when logging in
+          headers:
+            Set-Cookie:
+              description: generate token with jwt and redirect /current
+              schema:
+                type: string
+                example: token=sdnsajdnsajdnsajd
+        "302":
+            description: Redirection in case of authentication failure
+            headers:
+            Location:
+              schema:
+                type: string
+                example: /login
+  /api/users/current:
+    get:
+      summary: render profile page
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: render profile page (after login)
+          content:
+            text/html:
+              schema:
+                type: string
+                example: profile page HTML
+  /api/users/signup:
+    post:
+      summary: register user DETALLE ESTRATEGIA REGISTER, NO ESTA LISTA
+      tags:
+        - Users
+      security:
+        - passport: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SignupRequest'
+      responses:
+        "302":
+          description: "Redirección exitosa a la página de inicio de sesión."
+          schema:
+            type: object
+            properties:
+              redirectTo:
+                type: string
+        "401":
+          description: "Error de autenticación al registrar usuario."
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+        "500":
+          description: "Error interno del servidor."
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+  /api/users/profile:
+    get:
+      summary: get information from user
+      tags:
+        - Users
+      description: Retorna la información del perfil del usuario.
+      responses:
+        "200":
+          description: Éxito al obtener la información del perfil
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileInfo'
+        "401":
+          description: No autorizado, redirigir al usuario al inicio de sesión
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorUnauthorized'
+  /api/users/github:
+    get:
+      summary: login with github
+      tags:
+        - Users
+      description: Sign in using GitHub's authentication strategy.
+      responses:
+        "302":
+          description: Redirección a la página de autenticación de GitHub
+      security:
+        - githubAuth: []
+  /api/users/githubcallback:
+    get:
+      summary: call back auth github
+      tags:
+        - Users
+      description: Callback called after successful authentication via GitHub.
+      responses:
+        "302":
+          description: Redirect to profile page user
+      security:
+        - githubAuth: []
+  /api/users/passRecovery:
+    get:
+      summary: Render password recovery page
+      tags:
+        - Users
+      description: Return the page to recover password.
+      responses:
+        "200":
+          description: Password recovery page successfully rendered
+          content:
+            text/html:
+              schema:
+                type: string
+                example: HTML Password Recovery Page
+  /api/users/passChange:
+    get:
+      summary: Render password change page
+      tags:
+        - Users
+      description: Returns the page for changing the password.
+      responses:
+        "200":
+          description: Password change page rendered successfully
+          content:
+            text/html:
+              schema:
+                type: string
+                example: Password change page HTML
+  /api/users/updatePass:
+    put:
+      summary: Update user password
+      tags:
+        - Users
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/updatePass'
+      responses:
+        "200":
+          description: Password updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+        "400":
+          description: Bad Request - Passwords do not match
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Las contraseñas no coinciden"
+        "500":
+          description: Internal Server Error - Failed to update password
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Hubo un error al actualizar la contraseña"
+  /api/users/premiumUsers:
+    get:
+      summary: Get premium users
+      tags:
+        - Users
+      description: Get a list of premium users. Requires authentication and role validation.
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          description: List of premium users retrieved successfully
+          content:
+            text/html:
+              schema:
+                type: string
+                example: Premium users page HTML
+        "500":
+          description: Internal Server Error - Failed to retrieve premium users
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Hubo un error al obtener los usuarios premium"
+  /api/users/premium/{uid}:
+    put:
+      summary: Update user to premium
+      tags:
+        - Users
+      description: Update the user's role to premium. Requires authentication and role validation.
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          description: User ID
+          schema:
+            type: string
+          example: "653326c9de3a9b8024aa25be"
+      responses:
+        "200":
+          description: User role updated to premium successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserDTO'
+        "500":
+          description: Internal Server Error - Failed to update user role to premium
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    example: "Hubo un error al actualizar el rol a premium"
+

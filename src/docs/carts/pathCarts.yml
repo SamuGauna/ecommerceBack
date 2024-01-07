@@ -1,0 +1,208 @@
+paths:
+  /api/carts:
+    get:
+      summary: get all carts
+      tags:
+        - Carts
+      responses:
+        "200":
+          description: Carts gets successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCarts'
+    post:
+      summary: create cart
+      tags: 
+        - Carts
+      responses: 
+        "200":
+          description: Cart create successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PostCart'
+  /api/carts/{cid}:
+    get:
+      summary: get cart by id
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the cart
+      responses:
+        "200":
+          description: Carts gets successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetCartById'
+    put:
+      summary: update cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: cart id to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CartUpdateRequest'
+      responses:
+        "200":
+          description: Cart updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateCart'
+    delete:
+      summary: delete products from cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID of the cart to be eliminated his products
+      responses:
+        "200":
+          description: Product/s successfully deleted from cart
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProdFromCart'
+  /api/carts/{cid}/purchase:
+    post:
+      summary: buy complete
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: ID from cart to confirm to buy
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PurchaseRequest'
+      responses:
+        "200":
+          description: Purchase completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseResponse'
+  /api/carts/{cid}/product/{pid}:
+    post:
+      summary: add product to cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: cart ID
+          examples:
+            examplecid:
+              value: "6513322371de1bde07ea5d2b"
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: product ID
+          examples:
+            examplepid:
+              value: "65132b639d71b249f758be0d"
+      responses:
+        "200":
+          description: Purchase completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/addProdToCartResponse'
+    put:
+      summary: update product quantity
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: cart ID
+          examples:
+            examplecid:
+              value: "6513322371de1bde07ea5d2b"
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: product ID
+          examples:
+            examplepid:
+              value: "65132b639d71b249f758be0d"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateQuantityRequest'
+      responses:
+        "200":
+          description: Purchase completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UpdateQuantityResponse'
+    delete:
+      summary: delete product from cart
+      tags:
+        - Carts
+      parameters:
+        - name: cid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: cart ID
+          examples:
+            examplecid:
+              value: "6513322371de1bde07ea5d2b"
+        - name: pid
+          in: path
+          required: true
+          schema:
+            type: string
+          description: product ID
+          examples:
+            examplepid:
+              value: "65132b639d71b249f758be0d"
+      responses:
+        "200":
+          description: Purchase completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeleteProdFromCartResponse'
+

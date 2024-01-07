@@ -1,0 +1,96 @@
+components:
+  schemas:
+    USER:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: First name of the user
+        lastName:
+          type: string
+          description: Last name of the user
+        email:
+          type: string
+          description: Email address of the user
+          format: email
+        age:
+          type: number
+          description: Age of the user
+        password:
+          type: string
+          description: Password of the user
+        cart:
+          type: string
+          description: ID of the user's cart
+          format: uuid
+        role:
+          type: string
+          enum:
+            - admin
+            - usuario
+            - premium
+          default: usuario
+          description: Role of the user
+      required:
+        - firstName
+        - lastName
+        - email
+        - age
+        - password
+    UserLoginRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          description: email of user
+        password: 
+          type: string
+          description: password of user
+      example: 
+        email: adminCoder@coder.com
+        password: adminCod3r123
+    SignupRequest:
+      type: object
+      properties:
+        firstName:
+          type: string
+          description: first name user 
+        lastName:
+          type: string
+          description: last name user 
+        age:
+          type: integer
+          description: age user 
+      example: 
+        firstName: samuel
+        lastName: gomez
+        age: 13
+    updatePass:
+      type: object
+      properties:
+        newPassword:
+          type: string
+          description: new password
+        newPasswordConfirm: 
+          type: string
+          description: new password confirm
+    UserDTO:
+      type: object
+      properties:
+        user_id:
+          type: string
+          example: 12345
+        user_name:
+          type: string
+          example: john_doe
+        user_email:
+          type: string
+          example: john@example.com
+        user_cart:
+          type: array
+          items:
+            type: string
+          example: ['item1', 'item2']
+        user_role:
+          type: string
+          example: 'premium'

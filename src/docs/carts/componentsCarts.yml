@@ -1,0 +1,201 @@
+components:
+  schemas:
+    CARPRODUCT:
+      type: object
+      properties:
+        quantity:
+          type: number
+          description: Quantity of the product in the cart
+        productId:
+          type: string
+          format: uuid
+          description: ID of the product (assuming it's a UUID, adjust accordingly)
+    CART:
+      type: object
+      properties:
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/CartProduct'
+          description: List of products in the cart
+    GetCarts:
+      type: object
+      properties:
+        status:
+          type: string
+          description: if operation its ok or not
+        message:
+          type: string
+          description: was found or not
+        payload: 
+          type: array
+          description: list of carts
+      example:
+        status: "success"
+        message: "Cart was found"
+        payload: [{},{},{}]
+    GetCartById:
+      type: object
+      properties:
+        _id:
+          type: objectId
+          description: cart id
+        products:
+          type: array
+          description: quantity contained in the cart and the description of its products
+          items:
+            type: object
+            properties:
+              quantity:
+                type: string
+                description: quantity in the cart
+              productId:
+                type: string
+                description: id from product
+      example:
+        _id: 6513322c71de1bde07ea5d2f
+        products:
+          - quantity: 3
+            productId:
+              _id: "65132b639d71b249f758be0d"
+              title: "Martillo"
+              description: "Nuevo"
+              price: 250
+              thumbnail: "https://http2.mlstatic.com/D_NQ_NP_950089-MLU70406708312_072023-O.webp"
+              code: "1sas450"
+              stock: 10
+              status: true
+              createdAt: "2023-09-26T19:05:07.155Z"
+              updatedAt: "2023-11-15T20:00:22.219Z"
+              __v: 0
+    CartUpdateRequest:
+      type: object
+      properties:
+        quantity:
+          type: string
+          description: Quantity to update in the cart
+        productId:
+          type: string
+          description: ID of the product to update in the cart
+      example: 
+        quantity: 1
+        productId: 65132c019d71b249f758be11
+    UpdateCart:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Operation result
+        payload:
+          type: object
+          properties:
+          acknowledged:
+            type: boolean
+            description: if the operation was confirmed
+          modifiedCount:
+            type: integer
+            description: Number of modified documents
+      example:
+        message: "Cart updated successfully"
+        payload:
+          acknowledged: true
+          modifiedCount: 1
+    PostCart:
+      type: object
+      properties:
+        _id:
+          type: objectId
+          description: cart id created
+        products:
+          type: array
+          description: array empty
+      example:
+        _id: "658b02866545588a58788cfe"
+        products: []
+    DeleteProdFromCart:
+      type: object
+      properties:
+        status:
+          type: string
+          description: if operation its ok or not
+        message:
+          type: string
+          description: was success or not
+        payload: 
+          type: array
+          description: list of products empty
+      example:
+        status: "Product/s successfully deleted from cart"
+        message: "success"
+        payload: []
+    PurchaseRequest:
+      type: object
+      properties:
+        pid:
+          type: string
+          description: product id
+        quantity:
+          type: string
+          description: quantity of products
+        user:
+          type: string
+          description: user to buy
+      example: 
+        pid: 65132c019d71b249f758be11
+        quantity: 10
+        user: samuelgauna@gmail.com
+    PurchaseResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: message of confirmation
+      example: "Product confirmed for purchase and ticket generated"
+    addProdToCartResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: if operation its ok or not
+        message:
+          type: string
+          description: was success or not
+        payload: 
+          type: array
+          description: cart
+      example:
+        status: "Product successfully added to cart!"
+        message: "success"
+        payload: [{}]
+    UpdateQuantityRequest:
+      type: object
+      properties:
+        quantity:
+          type: string
+          description: update new quantity product
+      example: 
+        quantity: 10
+    UpdateQuantityResponse:
+      type: object
+      properties:
+        message:
+          type: string
+          description: was success or not
+        payload: 
+          type: array
+          description:  cart updated
+      example:
+        message: "success"
+        payload: [{}]
+    DeleteProdFromCartResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: if operation its ok or not
+        message:
+          type: string
+          description: message of operation
+      example:
+        status: success
+        message: The product/s you have selected has/have been successfully deleted from cart!
