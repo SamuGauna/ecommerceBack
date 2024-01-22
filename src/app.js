@@ -7,7 +7,7 @@ import handlebars from "express-handlebars";
 import './persistence/daos/mongodb/dbConfig/connection.js'
 import { Server, Socket } from "socket.io";
 import { eventsFromSocket } from "./socket/indexSocket.js";
-import sessionRouter from './routes/sessionsRoutes.js'
+import sessionRouter from './routes/userRoutes.js'
 import { sessionMongoStore } from "./persistence/daos/mongodb/dbConfig/session.js";
 import { initializePassport } from "./config/passportConfig.js";
 import passport from "passport";

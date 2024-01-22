@@ -5,7 +5,7 @@ import bcrypt from "bcrypt"
 import userRepository from "../persistence/repository/userRepository.js";
 import jwt from "passport-jwt"
 import config from "../config/dotenvConfig.js"
-import userDto from "../persistence/dtos/userDto.js";
+import { convertToUserDto } from "../persistence/dtos/userDto.js";
 const userManager = new userRepository();
 
 const JWTStrategy = jwt.Strategy;
@@ -83,7 +83,7 @@ export const initializePassport = ()=>{
     },async(jwt_payload, done)=>{
         try {
             const user = await userManager.findUser(jwt_payload.userId);
-            const dtoUser = new userDto(user)
+            const dtoUser = convertToUserDto(user)
             done(null, dtoUser)
         } catch (error) {
             done(error)

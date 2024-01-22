@@ -3,7 +3,7 @@ import { logger } from "../utils/loggers.js";
 import passport from "passport";
 import jwt from "jsonwebtoken"
 import userRepository from "../persistence/repository/userRepository.js";
-import userDto from "../persistence/dtos/userDto.js";
+import { convertToUserDto } from "../persistence/dtos/userDto.js";
 import config from "../config/dotenvConfig.js"
 const userManager = new userRepository()
 export const sendMailEthereal = async(req, res)=>{
@@ -24,7 +24,7 @@ export const sendGmail = async(req, res)=>{
             return res.status(404).json({ error: 'El usuario no existe' });
         }
         if(existUser){
-            const userdto = new userDto(existUser)
+            const userdto = convertToUserDto(existUser)
             const userId = userdto.user_id
             const token = jwt.sign({userId}, config.JWT_TOKEN_SECRET, {expiresIn: '1h'})
             res.cookie('tokenPassword', token, {

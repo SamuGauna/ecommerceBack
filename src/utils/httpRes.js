@@ -1,3 +1,4 @@
+import { logger } from './loggers.js'
 const HttpStatus = {
     OK: 200,
     NOT_FOUND: 404,
@@ -10,43 +11,58 @@ const HttpStatus = {
 // 403:  el servidor comprende la solicitud, pero se niega a autorizarla. Este estado es similar al 401, pero para el código de estado 403 Forbidden, volver a autenticarse no hace ninguna diferencia.
 // 500:  algo salió mal en el servidor del sitio web, pero el servidor no pudo ser más específico sobre cuál es el problema exacto.
 export class HttpResponse {
-    Ok(res, data){
+    Ok(res, payload) {
         return res.status(HttpStatus.OK).json({
             status: HttpStatus.OK,
             message: 'Success',
-            data: data
+            payload: payload
         });
-    };
-
-    NotFound(res, data){
+    }
+    NotFound(res, payload) {
         return res.status(HttpStatus.NOT_FOUND).json({
             status: HttpStatus.NOT_FOUND,
             message: 'Not Found',
-            error: data
+            error: payload
         });
-    };
-
-    Unauthorized(res, data){
+    }
+    Unauthorized(res, payload) {
         return res.status(HttpStatus.UNAUTHORIZED).json({
             status: HttpStatus.UNAUTHORIZED,
             message: 'Unauthorized',
-            error: data
+            error: payload
         });
-    };
-
-    Forbidden(res, data){
+    }
+    Forbidden(res, payload) {
         return res.status(HttpStatus.FORBIDDEN).json({
             status: HttpStatus.FORBIDDEN,
             message: 'Forbidden',
-            error: data
+            error: payload
         });
-    };
-
-    ServerError(res, data){
+    }
+    ServerError(res, payload) {
         return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({
             status: HttpStatus.INTERNAL_SERVER_ERROR,
             message: 'Internal Server Error',
-            error: data
+            error: payload
         });
-    };
-};
+    }
+    HandleError(res, error) {
+        logger.error(`${error.message}`);
+        if (error instanceof CustomError) {
+            return res.status(error.statusCode).json({
+                status: error.statusCode,
+                message: error.message,
+                payload: error.data
+            });
+        } else {
+            return this.ServerError(res, error.message);
+        }
+    }
+}
+class CustomError extends Error {
+    constructor(statusCode, message, data) {
+        super(message);
+        this.statusCode = statusCode;
+        this.data = data;
+    }
+}

@@ -1,18 +1,11 @@
-import { getCartByIdService } from "../managers/db/cartManager.js";
-import { 
-    getAllService, 
-    getByIdService, 
-    createService, 
-    updateService, 
-    deleteService, 
-    getProdFilterPaginateService,
-    createProductFaker
-} from "../managers/db/productManager.js";
 import { logger } from "../utils/loggers.js";
+import { createProductFaker } from "../services/faker.js";
+import { prodRepository } from "../services/dependencys/injection.js";
+
 
 export const getAllController = async (req, res, next) => {
     try {
-        const doc = await getAllService();
+        const doc = await prodRepository.getAllProducts();
         res.status(200).send({status: "success",message: "Get all products",payload: doc });
     } catch (error) {
         logger.warn('getAllController')
@@ -30,8 +23,8 @@ export const getProdFilterPaginateController = async (req, res, next) => {
         const modelLimit = limit ? parseInt(limit, 10) : 10;
         const modelPage = page ? parseInt(page, 10) : 1;
         const modelSort = sortObjectMapper[sort] ?? undefined;
-        const products = await getProdFilterPaginateService(modelTypeElement, modelLimit, modelPage, modelSort);
-        const cart = await getCartByIdService("6513322471de1bde07ea5d2d")
+        const products = await prodRepository.getProdFilterPaginate(modelTypeElement, modelLimit, modelPage, modelSort);
+        const cart = await prodRepository.getProductById("6513322471de1bde07ea5d2d")
         let totalQuantity = 0;
         if (Array.isArray(cart.products)) {
             cart.products.forEach(product => {
@@ -59,7 +52,7 @@ export const getProdFilterPaginateController = async (req, res, next) => {
 export const getByIdController = async (req, res, next) => {
     try {
         const {id} = req.params;
-        const doc = await getByIdService(id);
+        const doc = await prodRepository.getProductById(id);
         res.status(200).send({status: "success",message: "Product found",payload: doc });
     } catch (error) {
         console.log(`error en getbyidcontroller ${error}`)
@@ -68,7 +61,7 @@ export const getByIdController = async (req, res, next) => {
 export const createController = async (req, res, next) => {
     try {
         const {title, description, price,thumbnail, code, stock, status} = req.body;
-        const newDoc = await createService({
+        const newDoc = await prodRepository.createProduct({
             title, 
             description,
             price,
@@ -84,19 +77,31 @@ export const createController = async (req, res, next) => {
 }
 export const updateController = async (req, res, next) => {
     try {
+        // const existDoc = await prodRepository.getProductById(id)
+        // if(!existDoc){
+        //     throw new Error('product not found')
+        // } else {
+        //     const prodUpd = await prodRepository.updateProduct(id,obj)
+        //     return prodUpd;
+        // }
+        
         const {id} = req.params;
         const {title, description, price, thumbnail, code, stock, status} = req.body
-        await getByIdService(id);
-        const docUpd = await updateService(id, {
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
-            status
-        })
-        res.status(200).send({status: "success",message: "Product update successfully",payload: docUpd });
+        const existProd = await prodRepository.getProductById(id);
+        if(!existProd){
+                throw new Error('product not found')
+            } else {
+                const docUpd = await prodRepository.updateProduct(id, {
+                    title,
+                    description,
+                    price,
+                    thumbnail,
+                    code,
+                    stock,
+                    status
+                })
+                res.status(200).send({status: "success",message: "Product update successfully",payload: docUpd });
+            }
     } catch (error) {
         next(error)
     }
@@ -104,7 +109,7 @@ export const updateController = async (req, res, next) => {
 export const deleteController = async (req, res, next) => {
     try {
         const {id} = req.params;
-        const prodDelete = await deleteService(id);
+        const prodDelete = await prodRepository.deleteProduct(id);
         res.status(200).send({status: "success",message: "Product deleted successfully",payload: prodDelete });
     } catch (error) {
         next(error)

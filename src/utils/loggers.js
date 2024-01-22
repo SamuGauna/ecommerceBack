@@ -36,16 +36,6 @@ const logProd = {
 console.log('NODE_ENV:', dotenvConfig.NODE_ENV);
 
 const selectedConfig = dotenvConfig.NODE_ENV.trim() === 'production' ? logProd : logDev;
-// if(dotenvConfig.NODE_ENV == 'prod'){
-//     selectedConfig = logProd
-//     console.log(true);
-// } else{
-//     selectedConfig = logDev
-//     console.log(false);
-// }
-
-//console.log('Selected Config:', selectedConfig);
-//console.log('process.env:', process.env);
 
 export const logger = createLogger(selectedConfig);
 

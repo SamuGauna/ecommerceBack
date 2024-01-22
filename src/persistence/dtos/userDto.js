@@ -1,10 +1,11 @@
-export default class userDto {
-    constructor(user){
-        this.user_id = user._id,
-        this.user_name = user.firstName,
-        this.user_email = user.email,
-        this.user_cart = user.cart,
-        this.user_role = user.role
+
+export const convertToUserDto = (user) => {
+    return {
+        user_id: user._id,
+        user_name: user.firstName,
+        user_email: user.email,
+        user_cart: user.cart,
+        user_role: user.role
     }
 }
 

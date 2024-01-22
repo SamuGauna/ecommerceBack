@@ -1,95 +1,84 @@
-import {
-    getCartsAllService,
-    getCartByIdService,
-    createCartService,
-    addProductToCartService,
-    deleteProductToCartService,
-    deleteProductFromCartService,
-    updateProductQuantityService,
-    updateAllCartService,
-} from "../managers/db/cartManager.js";
-import { getByIdService, updateService } from "../managers/db/productManager.js";
-import ticketRepository from "../persistence/repository/ticketRepository.js";
-const ticket = new ticketRepository();
-
+import { cartRepository } from "../services/dependencys/injection.js";
+import { httpRes } from "../services/dependencys/injection.js";
 export const getCartsController = async (req, res, next) => {
     try {
-        const docs = await getCartsAllService();
+        const docs = await cartRepository.getAllCart();
         if (docs.length === 0) {
-            res.status(400).send({status: "error", message: "We couldn't find any cart", payload: docs})
+            return httpRes.NotFound(res, { docs });
         } else {
-            res.status(200).send({status: "success", message:"Cart was found", payload: docs})
+            return httpRes.Ok(res, { docs });
         }
     } catch (error) {
-        next(error);
+        return httpRes.HandleError(res, error);
     }
 }
-
 export const getCartByIdController = async (req, res, next) => {
     try {
         const { cid } = req.params;
-       //const docs = await getCartByIdService(Number(cid));
-        const docs = await getCartByIdService(cid);
-        res.status(200).json(docs);
+        const docs = await cartRepository.getCartById(cid);
+        if (!docs) {
+            return httpRes.NotFound(res, { docs });
+        }
+        return httpRes.Ok(res, { docs });
     } catch (error) {
-    next(error);
+        return httpRes.HandleError(res, error);
     }
 };
-
 export const createCartController = async (req, res, next) => {
     try {
-        const docs = await createCartService();
-        res.status(201).send(docs)
+        const docs = await cartRepository.createCart();
+        if (!docs) {
+            return httpRes.NotFound(res, { docs });
+        }
+        return httpRes.Ok(res, { docs });
     } catch (error) {
-        next(error);
+        return httpRes.HandleError(res, error);
     }
 };
-
 export const addProductToCartController = async (req, res, next) => {
     try {
         const { cid, pid } = req.params;
-        const product = await addProductToCartService(cid,pid);
-        //const product = await addProductToCartService(Number(cid), Number(pid));
+        const product = await cartRepository.addProductToCart(cid, pid);
         if (product) {
-            res.status(201).send({status: "success",message: "Product successfully added to cart!",payload: product});
+            return httpRes.Ok(res, {  product  });
         } else {
-            res.status(404).send({status: "error",message:"The product or cart you are searching for could not be found!"});
+            return httpRes.NotFound(res, { product });
         } 
     } catch (error) {
-        next(error);
+        return httpRes.HandleError(res, error);
     }
 };
-
 export const updateProductQuantityController = async (req,res, next) => {
     try {
         const { cid, pid } = req.params;
         const { quantity } = req.body;
-
-        const updatedCart = await updateProductQuantityService(cid, pid, quantity);
+        const updatedCart = await cartRepository.updateProductQuantity(cid, pid, quantity);
         if (!updatedCart) {
-        return res.status(404).json({ message: "Cart or product not found" });
+            return httpRes.NotFound(res, { updatedCart });
         }
-        return res.status(200).json({
-            message: "Product quantity updated successfully",
-            payload: updatedCart,
-        });
+        return httpRes.Ok(res, { updatedCart });
     } catch (error) {
-        next(error);
+        return httpRes.HandleError(res, error);
     }
 }
 export const updateAllCartController = async (req, res, next) => {
     try {
         const {cid} = req.params;
         const { quantity, productId } = req.body;
-        const cartUpd = await updateAllCartService(cid, {products : [{
-            quantity,
-            productId
-        }]
-        })
-        return res.status(200).json({
-            message: "Cart updated successfully",
-            payload: cartUpd,
-        });
+        const existCart = await cartRepository.getCartById(cid)
+        if(!existCart){
+            throw new Error('cart not found')
+        } else {
+            const cartUpd = await cartRepository.updateAllCart(cid, {products : [{
+                quantity,
+                productId
+                }]
+            })
+            return res.status(200).json({
+                message: "Cart updated successfully",
+                payload: cartUpd,
+            });
+        }
     } catch (error) {
         next(error);
     }
@@ -98,7 +87,7 @@ export const updateAllCartController = async (req, res, next) => {
 export const deleteProductToCartController = async (req, res, next) => {
     try {
         const {cid} = req.params;
-        const productsDeleted = await deleteProductToCartService(cid); 
+        const productsDeleted = await cartRepository.deleteProductToCart(cid); 
       //const productsDeleted = await deleteProductToCartService(Number(cid)); 
         if (productsDeleted ) {
             res.status(201).send({status: "success",message: "Product/s successfully deleted from cart!",payload: productsDeleted });
@@ -113,7 +102,7 @@ export const deleteProductToCartController = async (req, res, next) => {
 export const deleteProductFromCartController = async (req, res, next) => {
     try {
         const {cid, pid} = req.params;
-        const productDeleted = await deleteProductFromCartService(cid,pid); 
+        const productDeleted = await cartRepository.deleteProductFromCart(cid, pid); 
         //const productDeleted = await deleteProductFromCartService(Number(cid), Number(pid)); 
         if (productDeleted ) {
         res.status(201).send({status: "success",message: "The product/s you have selected has/have been successfully deleted from cart!"});

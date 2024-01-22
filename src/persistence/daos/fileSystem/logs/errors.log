@@ -1,74 +1,12 @@
-[31merror[39m | 04-Dec-2023 20:46 | este es un error
-[31merror[39m | 04-Dec-2023 20:49 | este es un error
-[31merror[39m | 04-Dec-2023 20:52 | este es un error
-[31merror[39m | 04-Dec-2023 20:52 | este es un error
-[31merror[39m | 04-Dec-2023 20:58 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 20:59 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 21:40 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 21:41 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 21:42 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 21:42 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 21:58 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:04 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:04 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:06 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:06 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:06 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:07 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:19 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:20 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:21 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 22:23 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 23:31 | mensaje con nivel error
-[31merror[39m | 04-Dec-2023 23:33 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:15 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:16 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:18 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:24 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:25 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:26 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:33 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:43 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:47 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 00:55 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 22:18 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 22:19 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 22:28 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 22:31 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 22:32 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 22:40 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 22:46 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 22:55 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 23:01 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 23:02 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 23:09 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 23:09 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 23:11 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 23:11 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 23:14 | mensaje con nivel error
-[31merror[39m | 05-Dec-2023 23:32 | mensaje con nivel error
-[31merror[39m | 14-Dec-2023 11:00 | Invalid status code: felicidades se cambio la contraseña
-[31merror[39m | 18-Dec-2023 19:14 | Assignment to constant variable.
-[31merror[39m | 18-Dec-2023 19:16 | Assignment to constant variable.
-[31merror[39m | 18-Dec-2023 19:18 | Cannot set headers after they are sent to the client
-[31merror[39m | 06-Jan-2024 16:59 | Operation `products.find()` buffering timed out after 10000ms
-[31merror[39m | 06-Jan-2024 17:03 | Operation `products.find()` buffering timed out after 10000ms
-[31merror[39m | 06-Jan-2024 20:59 | Operation `products.find()` buffering timed out after 10000ms
-[31merror[39m | 06-Jan-2024 21:17 | Operation `products.find()` buffering timed out after 10000ms
-[31merror[39m | 07-Jan-2024 00:46 | Error en la conexión a la base de datos: Cannot read properties of undefined (reading '_id')
-[31merror[39m | 07-Jan-2024 00:58 | Error en la conexión a la base de datos: Cannot read properties of undefined (reading '_id')
-[31merror[39m | 07-Jan-2024 01:06 | Error en la conexión a la base de datos: Cannot read properties of undefined (reading '_id')
-[31merror[39m | 07-Jan-2024 01:27 | Error en la conexión a la base de datos: Cannot read properties of undefined (reading '_id')
-[31merror[39m | 07-Jan-2024 01:30 | Error en la conexión a la base de datos: Cannot read properties of undefined (reading '_id')
-[31merror[39m | 07-Jan-2024 01:36 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:36 | Error en la conexión a la base de datos: Cannot read properties of undefined (reading '_id')
-[31merror[39m | 07-Jan-2024 01:38 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:38 | Error en la conexión a la base de datos: Cannot read properties of undefined (reading '_id')
-[31merror[39m | 07-Jan-2024 01:39 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:44 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:48 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:50 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:51 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:52 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:55 | Cannot read properties of null (reading 'email')
-[31merror[39m | 07-Jan-2024 01:56 | Cannot read properties of null (reading 'email')
+[31merror[39m | 09-Jan-2024 13:38 | Error on getAllCart: Error simulado en getAllCart
+[31merror[39m | 09-Jan-2024 13:38 | Error: Error: Error simulado en getAllCart
+[31merror[39m | 09-Jan-2024 13:44 | Error on getAllCart: Error simulado en getAllCart
+[31merror[39m | 09-Jan-2024 13:44 | Error: Error simulado en getAllCart
+[31merror[39m | 09-Jan-2024 13:44 | Error on getAllCart: Simulacion de error en getAllCart
+[31merror[39m | 09-Jan-2024 13:44 | Error: Simulacion de error en getAllCart
+[31merror[39m | 09-Jan-2024 14:09 | Error on addProductToCart: Cast to ObjectId failed for value "6513322371de1bde07e" (type string) at path "_id" for model "carts"
+[31merror[39m | 09-Jan-2024 14:09 | CastError: Cast to ObjectId failed for value "6513322371de1bde07e" (type string) at path "_id" for model "carts"
+[31merror[39m | 09-Jan-2024 14:12 | CastError: Cast to ObjectId failed for value "6513322371de1bde07e" (type string) at path "_id" for model "carts"
+[31merror[39m | 09-Jan-2024 14:13 | CastError: Cast to ObjectId failed for value "65132b639d71b249f758be" (type string) at path "_id" for model "products"
+[31merror[39m | 09-Jan-2024 14:24 | Error: The requested product id 65132b639d71b249f758be1d doesnt exist!
+[31merror[39m | 09-Jan-2024 14:24 | Error: The cart you are searching for does not exist!
