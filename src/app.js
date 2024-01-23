@@ -23,6 +23,7 @@ import { errorMiddleware } from "./middlewares/errorHandler.js";
 
 import loggerRouter from "./routes/loggerRouter.js"
 import { logger } from "./utils/loggers.js";
+import cors from "cors"
 
 
 const app = express();
@@ -65,7 +66,7 @@ app.set('views', './src/views')
 app.set('view engine', 'handlebars')
 
 app.use(express.static('./public'))
-
+app.use(cors())
 
 
 app.use('/handlebars', handlebarsRouter)

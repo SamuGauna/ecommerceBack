@@ -4,7 +4,7 @@ import { productModel } from "../daos/mongodb/models/productModel.js";
 export default class productRepository {
     async getAllProducts() {
         try {
-            const response = await productModel.find({});
+            const response = await productModel.find({}).lean();
             logger.info('Successful query on getAllProducts');
             return response;
         } catch (error) {

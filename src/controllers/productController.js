@@ -8,7 +8,8 @@ export const getAllController = async (req, res, next) => {
         if (doc.length === 0) {
             return httpRes.NotFound(res, { doc });
         } else {
-            return httpRes.Ok(res, { doc });
+            // return httpRes.Ok(res, { doc });
+            res.render('productsDB', {products : doc})
         }
     } catch (error) {
         return httpRes.HandleError(res, error);
