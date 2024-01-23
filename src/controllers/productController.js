@@ -1,15 +1,17 @@
 import { logger } from "../utils/loggers.js";
 import { createProductFaker } from "../services/faker.js";
 import { prodRepository } from "../services/dependencys/injection.js";
-
-
+import { httpRes } from "../services/dependencys/injection.js";
 export const getAllController = async (req, res, next) => {
     try {
         const doc = await prodRepository.getAllProducts();
-        res.status(200).send({status: "success",message: "Get all products",payload: doc });
+        if (doc.length === 0) {
+            return httpRes.NotFound(res, { doc });
+        } else {
+            return httpRes.Ok(res, { doc });
+        }
     } catch (error) {
-        logger.warn('getAllController')
-        logger.error(error)
+        return httpRes.HandleError(res, error);
     }
 }
 export const getProdFilterPaginateController = async (req, res, next) => {
@@ -31,31 +33,22 @@ export const getProdFilterPaginateController = async (req, res, next) => {
             totalQuantity += product.quantity;
             });
         }
-        //res.render('productsDB', {products: doc.payload, quantityProdId: totalQuantity});
-        res.status(200).send({
-            status: "success", 
-            payload: products.docs, 
-            totalDocs: products.totalDocs,
-            limit: products.limit,
-            totalPages: products.totalPages,
-            page: products.page,
-            pagingCounter: products.pagingCounter,
-            hasPrevPage: products.hasPrevPage,
-            hasNextPage: products.hasNextPage,
-            prevPage: products.prevPage,
-            nextPage: products.nextPage
-        })
+        let payload = products.docs
+        return httpRes.OkPaginate(res, { payload }, products)
     } catch (error) {
-        next(error)
+        return httpRes.HandleError(res, error);
     }
 }
 export const getByIdController = async (req, res, next) => {
     try {
         const {id} = req.params;
         const doc = await prodRepository.getProductById(id);
-        res.status(200).send({status: "success",message: "Product found",payload: doc });
+        if (!doc) {
+        return httpRes.NotFound(res, { doc });
+        }
+        return httpRes.Ok(res, { doc });
     } catch (error) {
-        console.log(`error en getbyidcontroller ${error}`)
+        return httpRes.HandleError(res, error);
     }
 }
 export const createController = async (req, res, next) => {
@@ -70,9 +63,12 @@ export const createController = async (req, res, next) => {
             stock,
             status
         })
-        res.status(200).send({status: "success",message: "Product create successfully",payload: newDoc });
+        if (!newDoc) {
+            return httpRes.NotFound(res, { newDoc });
+            }
+            return httpRes.Ok(res, { newDoc });
     } catch (error) {
-        next(error)
+        return httpRes.HandleError(res, error);
     }
 }
 export const updateController = async (req, res, next) => {
@@ -84,12 +80,11 @@ export const updateController = async (req, res, next) => {
         //     const prodUpd = await prodRepository.updateProduct(id,obj)
         //     return prodUpd;
         // }
-        
         const {id} = req.params;
         const {title, description, price, thumbnail, code, stock, status} = req.body
         const existProd = await prodRepository.getProductById(id);
         if(!existProd){
-                throw new Error('product not found')
+            return httpRes.NotFound(res, { existProd });
             } else {
                 const docUpd = await prodRepository.updateProduct(id, {
                     title,
@@ -100,28 +95,34 @@ export const updateController = async (req, res, next) => {
                     stock,
                     status
                 })
-                res.status(200).send({status: "success",message: "Product update successfully",payload: docUpd });
+                return httpRes.Ok(res, { docUpd });
             }
     } catch (error) {
-        next(error)
+        return httpRes.HandleError(res, error);
     }
 }
 export const deleteController = async (req, res, next) => {
     try {
         const {id} = req.params;
         const prodDelete = await prodRepository.deleteProduct(id);
-        res.status(200).send({status: "success",message: "Product deleted successfully",payload: prodDelete });
+        if (!prodDelete) {
+            return httpRes.NotFound(res, { prodDelete });
+            }
+        return httpRes.Ok(res, { prodDelete });
     } catch (error) {
-        next(error)
+        return httpRes.HandleError(res, error);
     }
 }
 export const createFakerProductsController = async (req, res) => {
     try {
         const {fakerQuantity} = req.query
         const response = await createProductFaker(fakerQuantity)
-        res.status(200).send({status: "success",message: "Faker products create successfully",payload: response });
+        if(!response){
+            return httpRes.NotFound(res, { response })
+        }
+        return httpRes.Ok(res, { response })
     } catch (error) {
-        console.error(`Error en createFakerProductsController: ${error}`);
-        res.status(500).json({ error: 'Internal Server Error' });
+        logger.error(`Error en createFakerProductsController`);
+        return httpRes.HandleError(res, error);
     }
 }

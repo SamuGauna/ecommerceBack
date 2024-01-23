@@ -2,11 +2,10 @@ import passport from "passport";
 import LocalStrategy from "passport-local"
 import GithubStrategy from "passport-github2"
 import bcrypt from "bcrypt"
-import userRepository from "../persistence/repository/userRepository.js";
 import jwt from "passport-jwt"
 import config from "../config/dotenvConfig.js"
 import { convertToUserDto } from "../persistence/dtos/userDto.js";
-const userManager = new userRepository();
+import { user } from "../services/dependencys/injection.js";
 
 const JWTStrategy = jwt.Strategy;
 const ExtractJWT = jwt.ExtractJwt;
@@ -25,11 +24,11 @@ export const initializePassport = ()=>{
     passport.use('register', new LocalStrategy({ passReqToCallback: true, usernameField: 'email'}, async(req, username, password, done)=>{
         const {firstName, lastName, age} = req.body
         try {
-            const exist = await userManager.userExist(username)
+            const exist = await user.userExist(username)
             if(exist){
                 return(null, false)
             }
-            const newUser = await userManager.userCreate(firstName, lastName, username, age, password)
+            const newUser = await user.userCreate(firstName, lastName, username, age, password)
             return done(null, newUser)
         } catch (error) {
             return done(error)
@@ -38,7 +37,7 @@ export const initializePassport = ()=>{
     passport.use('login', new LocalStrategy({ usernameField: 'email'}, async(username, password, done)=>{
         
         try {
-            const existUser = await userManager.userExist(username)
+            const existUser = await user.userExist(username)
             if(!existUser){
                 return(null, false)
             }
@@ -46,7 +45,6 @@ export const initializePassport = ()=>{
                 return done(null, false)
             }
             return done(null, existUser)
-
         } catch (error) {
             return done(error)
         }
@@ -59,10 +57,10 @@ export const initializePassport = ()=>{
     }, async(accessToken, refreshToken, profile, done)=>{
         try {
             const email = profile.emails[0].value
-            const user = await userManager.userExist(email)
+            const user = await user.userExist(email)
             if(!user){
                 console.log(profile);
-                const newUser = await userManager.userCreate(profile._json.login,
+                const newUser = await user.userCreate(profile._json.login,
                     "lastName", 
                     email, 
                     23, 
@@ -82,8 +80,8 @@ export const initializePassport = ()=>{
         secretOrKey: config.JWT_TOKEN_SECRET,
     },async(jwt_payload, done)=>{
         try {
-            const user = await userManager.findUser(jwt_payload.userId);
-            const dtoUser = convertToUserDto(user)
+            const userfind = await user.findUser(jwt_payload.userId);
+            const dtoUser = convertToUserDto(userfind)
             done(null, dtoUser)
         } catch (error) {
             done(error)
@@ -94,7 +92,7 @@ export const initializePassport = ()=>{
         done(null, user._id)
     })
     passport.deserializeUser(async(id, done)=>{
-        const user = await userManager.findUser(id);
+        const user = await user.findUser(id);
         done(null, user)
     })
 

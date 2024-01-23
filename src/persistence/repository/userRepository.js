@@ -1,8 +1,7 @@
 import { userModel } from "../daos/mongodb/models/userModel.js"
 import bcrypt from "bcrypt"
-import CartRepository from "./cartRepository.js";
 import { logger } from "../../utils/loggers.js";
-
+import { cartRepository } from "../../services/dependencys/injection.js";
 
 
 export default class userRepository {
@@ -37,8 +36,7 @@ export default class userRepository {
 
     async userCreate(firstName, lastName, email, age, password) {
         try {
-        const cart = new CartRepository();
-        const newCartUser = await cart.createCart()
+        const newCartUser = await cartRepository.createCart()
         const response = await userModel.findOne({email})
         if(response){
             return console.log(`El usario con email: ${email}, ya esta registrado`);

@@ -40,14 +40,14 @@ export const loginController = async (req, res, next) => {
 }
 export const profilePageController = async (req, res, next) => {
     try {
-        if(req.session){
-            const userSession = {
-                firstName: req.session.firstName,
-                role: req.session.role,
-                isLogged: req.session.isLogged
-            }
-            res.render('profile', {userSession})
-        }
+        // if(req.session){
+        //     const userSession = {
+        //         firstName: req.session.firstName,
+        //         role: req.session.role,
+        //         isLogged: req.session.isLogged
+        //     }
+        //     res.render('profile', {userSession})
+        // }
         const userDto = req.user
         res.render('profile', {userDto})
     } catch (error) {

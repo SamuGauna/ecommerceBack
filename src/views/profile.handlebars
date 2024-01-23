@@ -10,7 +10,7 @@
                     </div>
                 <div style="display: flex; flex-direction: column;">
                     <img src="/img/iconmonstr-product-3.png" width="250px" height="250px" alt="all products">
-                    <a href="http://localhost:8080/api/sessions/signup">Ver los productos hasta el momento</a>
+                    <a href="http://localhost:8080/api/products/allProducts">Ver los productos hasta el momento</a>
                 </div>
                 <div style="display: flex; flex-direction: column;">
                     <img src="/img/6385995.png" width="250px" height="250px" alt="premium user">
@@ -20,8 +20,7 @@
             </div>
         {{else}}
             <h1 >Bienvenido {{userDto.user_name}}, tu rol es {{userDto.user_role}}</h1>
-            <a href="http://localhost:8080/api/products">Ver los productos hasta el momento</a>
-                    
+            <a href="http://localhost:8080/api/products/allProducts">Ver los productos hasta el momento</a>
         {{/if}}
 {{else}}
         <p>Inicia sesión para continuar.</p>

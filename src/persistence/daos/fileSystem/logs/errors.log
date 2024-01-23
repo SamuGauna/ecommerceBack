@@ -10,3 +10,11 @@
 [31merror[39m | 09-Jan-2024 14:13 | CastError: Cast to ObjectId failed for value "65132b639d71b249f758be" (type string) at path "_id" for model "products"
 [31merror[39m | 09-Jan-2024 14:24 | Error: The requested product id 65132b639d71b249f758be1d doesnt exist!
 [31merror[39m | 09-Jan-2024 14:24 | Error: The cart you are searching for does not exist!
+[31merror[39m | 22-Jan-2024 21:10 | Cannot read properties of null (reading 'email')
+[31merror[39m | 22-Jan-2024 21:21 | Cannot read properties of null (reading 'email')
+[31merror[39m | 22-Jan-2024 21:29 | Cannot read properties of null (reading 'email')
+[31merror[39m | 22-Jan-2024 21:40 | Cannot read properties of null (reading 'email')
+[31merror[39m | 22-Jan-2024 21:42 | Cannot read properties of null (reading 'products')
+[31merror[39m | 22-Jan-2024 21:45 | Cannot read properties of null (reading 'products')
+[31merror[39m | 22-Jan-2024 21:47 | Cannot read properties of null (reading 'products')
+[31merror[39m | 22-Jan-2024 21:49 | Cannot read properties of null (reading 'products')
