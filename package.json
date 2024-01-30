@@ -8,8 +8,7 @@
     "start": "node ./src/app.js",
     "test-product": "npx mocha src/test/persistence/repository/product.test.js",
     "test-cart": "npx mocha src/test/persistence/repository/cart.test.js",
-    "test-user": "npx mocha src/test/persistence/repository/user.test.js",
-    "prestart": "npm install --omit=dev --legacy-peer-deps"
+    "test-user": "npx mocha src/test/persistence/repository/user.test.js"
   },
   "keywords": [],
   "author": "",
