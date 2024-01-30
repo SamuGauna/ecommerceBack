@@ -1,6 +1,6 @@
 import { logger } from "../utils/loggers.js";
 import { createProductFaker } from "../services/faker.js";
-import { prodRepository } from "../services/dependencys/injection.js";
+import { cartRepository, prodRepository } from "../services/dependencys/injection.js";
 import { httpRes } from "../services/dependencys/injection.js";
 export const getAllController = async (req, res, next) => {
     try {
@@ -9,7 +9,7 @@ export const getAllController = async (req, res, next) => {
             return httpRes.NotFound(res, { doc });
         } else {
             // return httpRes.Ok(res, { doc });
-            res.render('productsDB', {products : doc})
+            res.render('productsDB', {products: doc})
         }
     } catch (error) {
         return httpRes.HandleError(res, error);
@@ -27,15 +27,15 @@ export const getProdFilterPaginateController = async (req, res, next) => {
         const modelPage = page ? parseInt(page, 10) : 1;
         const modelSort = sortObjectMapper[sort] ?? undefined;
         const products = await prodRepository.getProdFilterPaginate(modelTypeElement, modelLimit, modelPage, modelSort);
-        const cart = await prodRepository.getProductById("6513322471de1bde07ea5d2d")
+        const cart = await cartRepository.getCartById("6513322171de1bde07ea5d29")
         let totalQuantity = 0;
         if (Array.isArray(cart.products)) {
             cart.products.forEach(product => {
             totalQuantity += product.quantity;
             });
         }
-        let payload = products.docs
-        return httpRes.OkPaginate(res, { payload }, products)
+        let content = products.docs
+        return httpRes.OkPaginate(res, { content }, products)
     } catch (error) {
         return httpRes.HandleError(res, error);
     }

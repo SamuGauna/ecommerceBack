@@ -29,6 +29,7 @@ export default class productRepository {
         try {
             const response = await productModel.findById(id);
             logger.info('Successful query on getProductById');
+            logger.info(JSON.stringify(response))
             return response;
         } catch (error) {
             throw new Error(error);

@@ -18,6 +18,14 @@ export class HttpResponse {
             payload: payload
         });
     }
+    OkPaginate(res, payload, products) {
+        return res.status(HttpStatus.OK).json({
+            status: HttpStatus.OK,
+            message: 'Success',
+            payload,
+            docs: products
+        });
+    }
     NotFound(res, payload) {
         return res.status(HttpStatus.NOT_FOUND).json({
             status: HttpStatus.NOT_FOUND,

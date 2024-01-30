@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -8,7 +9,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Swal.fire({
                 icon: 'success',
                 title: 'Producto agregado con exito!'
-              })
+            })
             // Realiza la solicitud POST al servidor
             fetch(`http://localhost:8080/api/carts/6513322471de1bde07ea5d2d/product/${productId}`, {
                 method: "POST",
