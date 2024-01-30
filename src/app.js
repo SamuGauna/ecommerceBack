@@ -66,7 +66,15 @@ app.set('views', './src/views')
 app.set('view engine', 'handlebars')
 
 app.use(express.static('./public'))
-app.use(cors())
+const corsOptions = {
+    origin: '*', // Permitir cualquier origen
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE', // Métodos permitidos
+    allowedHeaders: 'Content-Type,Authorization', // Encabezados permitidos
+    optionsSuccessStatus: 204, // Para preflight requests (solicitudes previas), devuelve 204 No Content
+    credentials: true, // Permite incluir cookies en las solicitudes (si es necesario)
+};
+
+app.use(cors(corsOptions));
 
 
 app.use('/handlebars', handlebarsRouter)
