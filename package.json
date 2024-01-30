@@ -7,7 +7,6 @@
   "scripts": {
     "start": " nodemon ./src/app.js",
     "dev": "node ./src/app.js",
-    "prod": "set NODE_ENV=production && nodemon ./src/app.js",
     "test-product": "npx mocha src/test/persistence/repository/product.test.js",
     "test-cart": "npx mocha src/test/persistence/repository/cart.test.js",
     "test-user": "npx mocha src/test/persistence/repository/user.test.js"
